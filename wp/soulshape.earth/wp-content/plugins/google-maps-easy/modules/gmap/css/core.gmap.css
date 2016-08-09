@@ -1,0 +1,25 @@
+.gmpInfoWindowtitle {
+	font-size: 19px;
+	font-weight: bold !important;
+	color: brown;
+	margin: 0 0 5px 6px;
+	padding: 5px 0;
+	position: relative; 
+	left: -6px;
+}
+.gmp_MapPreview img { 
+	max-width: none !important; 
+}
+.map_container img{
+	max-width: inherit !important;
+}
+.map-preview-img-container {
+	cursor: pointer;
+}
+.gmp_map_opts.display_as_popup {
+	display:none;
+}
+/* Fix for prevent applying of third party styles to google map infowindows */
+.gmp_map_opts .gm-style-iw>div:first-child {
+	overflow: auto !important;
+}

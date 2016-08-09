@@ -1,0 +1,12 @@
+.widget-content .gmpWidgetRow:first-of-type, .widget-content .gmpWidgetSuboptions {
+	margin-top: 10px;
+}
+.widget-content .gmpWidgetRow, .widget-content .gmpWidgetSuboptions input[type="text"] {
+	margin-bottom: 10px;
+}
+.widget-content .gmpWidgetSuboptions input[type="text"]:last-of-type {
+	margin-bottom: 0;
+}
+.widget-content .gmpWidgetRow input[type="checkbox"] {
+	vertical-align: bottom;
+}

@@ -1,0 +1,46 @@
+/*
+Theme Name: soulShape 
+Description: Derived from Rise Lite by Befair for soulShape.earth 
+Author: MachoThemes
+Template: zerif-lite
+Version: 1.0.15
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Tags: white, black, one-column, responsive-layout, custom-background, custom-header, custom-menu, featured-images, threaded-comments, translation-ready,photoblogging
+Text Domain: rise-lite
+*/
+
+.intro-text { font-size: 52px; }
+
+.service-icon {
+    height: 250px !important;
+    width: 255px !important;
+}
+
+.focus .container { width: 100%; }
+
+.about-us .container { width: 100%; }
+
+.out-team .container { width: 100%; }
+
+.focus { background-color: rgb(183, 31, 56); }
+
+.clients-section-title { display: none }
+
+.zerif-rtl-skills { display: none }
+
+.our-team { background-color: rgb(0, 128, 128); }
+
+.our-clients-section { background-color: orange !important; }
+
+.about-us { background-color: orange !important; } 
+
+.about-us .container .section-header { padding-bottom: 0px; }
+
+.testimonials { background-color: rgb(56, 11, 97); }
+
+.zerif-copyright-box { display: none }
+
+.company-details { display: none }
+
+.dark-text { color: white; }

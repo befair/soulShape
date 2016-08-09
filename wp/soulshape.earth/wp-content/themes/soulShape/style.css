@@ -1,0 +1,93 @@
+/*
+Theme Name: soulShape 
+Description: Derived from Rise Lite by Befair for soulShape.earth 
+Author: MachoThemes
+Template: zerif-lite
+Version: 1.0.15
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Tags: white, black, one-column, responsive-layout, custom-background, custom-header, custom-menu, featured-images, threaded-comments, translation-ready,photoblogging
+Text Domain: rise-lite
+*/
+
+.intro-text {
+    font-size: 52px;
+}
+
+#main-nav {
+    position: absolute;
+}
+.navbar-right {
+    float: none !important;
+}
+
+.home .header, .header-content-wrap {
+    height: 100vh;
+}
+
+.home .header-content-wrap {
+    padding-top: 40vh !important;
+}
+
+.service-icon {
+    height: 250px !important;
+    width: 255px !important;
+}
+
+.focus .container {
+    width: 100%;
+}
+
+.about-us .container {
+    width: 100%;
+    padding: 0px !important;
+}
+
+
+.focus {
+    background-color: rgb(183, 31, 56);
+}
+
+.client-list div {
+    display: inline-block;
+    float: none !important;
+    margin-right: -4px;
+    vertical-align: top;
+    margin-bottom: 25px;
+}
+
+.clients-section-title {
+    display: none
+}
+
+.zerif-rtl-skills {
+    display: none
+}
+
+.our-clients-section {
+    background-color: orange !important;
+}
+
+.testimonials {
+    background-color: rgb(56, 11, 97);
+}
+
+.zerif-copyright-box {
+    display: none;
+}
+
+.company-details {
+    display: none
+}
+
+.focus p, h2, h3 {
+    color: white !important;
+}
+
+.focus p {
+    font-size: 18px; 
+}
+
+.focus h3 {
+    font-size: 22px;  
+}
