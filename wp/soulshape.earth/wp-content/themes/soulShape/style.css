@@ -80,14 +80,16 @@ Text Domain: rise-lite
     display: none
 }
 
-.focus p, h2, h3 {
-    color: white !important;
-}
-
 .focus p {
+    color: white !important;
     font-size: 18px; 
 }
 
+.focus h2 {
+    color: white !important;
+}
+
 .focus h3 {
+    color: white !important;
     font-size: 22px;  
 }
