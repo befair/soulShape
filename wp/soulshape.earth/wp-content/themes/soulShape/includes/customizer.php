@@ -220,6 +220,30 @@ if( !function_exists( 'rise_lite_customizer' ) ) {
 			'settings'	=> 'zerif_rise_icon_address_icon',
 			'priority'	=> 13,
 		)));
+        ### Customed soulShape ###
+        $wp_customize->add_panel( 'panel_ourfocus', array(
+            'priority' => 32,
+            'capability' => 'edit_theme_options',
+            'title' => __( 'Problem section', 'zerif-lite' )
+        ));
+
+        $wp_customize->add_panel( 'panel_about', array(
+            'priority' => 34,
+            'capability' => 'edit_theme_options',
+            'title' => __( 'Solution section', 'zerif-lite' )
+        ));
+
+        $wp_customize->add_panel( 'panel_ourteam', array(
+            'priority' => 35,
+            'capability' => 'edit_theme_options',
+            'title' => __( 'Business section', 'zerif-lite' )
+        ));
+    
+        $wp_customize->add_panel( 'panel_testimonials', array(
+            'priority' => 36,
+            'capability' => 'edit_theme_options',
+            'title' => __( 'Map section', 'zerif-lite' )
+        ));
 	}
 }
 ?>
