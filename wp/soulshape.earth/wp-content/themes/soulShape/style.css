@@ -4,9 +4,7 @@ Description: Derived from Rise Lite for soulShape.earth
 Author: Radeox/AzzeccaGarbugli 
 Template: zerif-lite
 Version: 1.0
-License: GNU General Public License v2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
-Tags: white, black, one-column, responsive-layout, custom-background, custom-header, custom-menu, featured-images, threaded-comments, translation-ready,photoblogging
+License: GPLv3 
 */
 
 .intro-text {
@@ -91,4 +89,147 @@ Tags: white, black, one-column, responsive-layout, custom-background, custom-hea
 .focus h3 {
     color: white !important;
     font-size: 22px;  
+}
+
+.woocommerce-page .woocommerce-ordering{
+    float: left !important;
+    width: 100% !important;
+}
+
+.woocommerce-page .woocommerce-ordering select {
+    color: black !important;
+    border-radius: 3px;
+    width: 100%;
+    border: 1px solid #e9e9e9;
+    padding: 10px !important;
+}
+
+.woocommerce-page .woocommerce select {
+    color: #A0A0A0;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    width: 100%;
+    margin: -2px;
+    outline: 0;
+    line-height: 1;
+    border-radius: 3px;
+    padding: 10px 5px;
+}
+
+.dropdown_layered_nav_population {
+    color: black !important;
+    border: 1px solid #e9e9e9 !important;
+}
+
+.dropdown_layered_nav_age {
+    color: black !important;
+    border: 1px solid #e9e9e9 !important;
+}
+
+.woof_select {
+    border-radius: 3px;
+}
+
+.xoouserultra-wrap {
+    max-width: none;
+} 
+
+.fa-eye {
+    display: none;
+}
+
+.uultra-prof-social-icon i {
+    padding: 0;
+}
+
+.entry-content {
+    margin: -1em 0 0;
+}
+
+.woof_products_top_panel a{
+    text-decoration: none;
+    border: 1px solid #888888;
+    padding: 4px;
+}
+
+.woof_products_top_panel li span {
+    padding-right: 0px;
+    background: none;
+    background-size: 12px 12px;
+    background-repeat: no-repeat;
+    background-position: right;
+}
+
+.widget-woof{
+    padding-top:20px;
+}
+
+.widget select {
+    max-width: 100%;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 7px;
+    border: 1px solid #e9e9e9;
+}
+
+/* Indigenous people */
+.page-id-170 .site-content .container {
+    width: 100vw;
+    padding: 0px;
+}
+
+.page-id-170 .hentry {
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+    border-bottom: 0px;
+}
+
+.page-id-170 .col-md-12 {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.page-id-170 .content-left-wrap {
+    padding-top: 36px;
+}
+
+.carousel-inner {
+    height: 80vh;
+}
+
+.item {
+    height: inherit;
+    border-radius: 0px;
+}
+
+.item img {
+    height: 100% !important;
+    filter: blur(5px);
+    -webkit-filter: blur(5px) brightness(50%);
+    transform: scale(1.03);
+}
+
+.carousel-indicators {
+    bottom: -15px;
+}
+
+.carousel-caption {
+    top: 20px;
+    bottom: 0px;
+}
+
+.page-id-170 .big-title-separator {
+    margin: 35px 0;
+}
+
+.carousel-caption p {
+    text-align: center;
+    padding-top: 20px;
+    font-size: 2.9vh;
+    line-height: 115%;
+}
+
+.page-id-170 .navbar {
+    background: transparent;
+    padding-bottom: 20px;
 }

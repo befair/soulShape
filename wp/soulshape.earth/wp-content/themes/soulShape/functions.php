@@ -65,3 +65,8 @@ function rise_lite_remove_footer_sidebars(){
 	unregister_sidebar( 'zerif-sidebar-footer-3' );
 }
 add_action( 'widgets_init', 'rise_lite_remove_footer_sidebars', 11 );
+
+### Soulshape Custom ###
+remove_action('woocommerce_before_shop_loop', 'woocommerce_catalog_ordering', 30);
+add_action('get_sidebar','woocommerce_catalog_ordering');
+
