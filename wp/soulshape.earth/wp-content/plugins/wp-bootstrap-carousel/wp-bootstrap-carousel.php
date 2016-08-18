@@ -241,6 +241,8 @@ class WP_Bootstrap_Carousel
             $thumb   = wp_get_attachment_image_src( $item_id, $image_size, false ); // thumbnail size
             $link    = ( $file ) ? $full[0] : get_attachment_link( $item_id );
             $caption = ( ! empty( $item->post_excerpt ) ) ? wpautop( wptexturize( $item->post_excerpt ) ) : '';
+            $var = get_post_field('post_content', $item_id);
+            $button = preg_split("/%%%/", $var);
 
             // open item div
             $carousel .= '<div id="item-' . $item_id . '" class="' . ( ( $i == 0 ) ? "active" : "" ) . ' item">';
@@ -255,7 +257,7 @@ class WP_Bootstrap_Carousel
             $carousel .= '<div class="carousel-caption">';
 
             // title
-            $carousel .= '<h1 class="carousel-post-title">' . $item->post_title . '</h1>';
+            $carousel .= '<h2 class="carousel-post-title">' . $item->post_title . '</h2>';
 
             // comments
             if( $comments && comments_open( $item_id ) )
@@ -276,8 +278,8 @@ class WP_Bootstrap_Carousel
             $carousel .= apply_filters( 'wp_bootstrap_carousel_caption_text', $caption, $item_id );
 
             $carousel .= '<div class="big-title-separator"></div>';
-            $carousel .= '<a href="#" class="btn-child btn btn-primary custom-button red-btn" style="margin: -15px 11px 0 11px">More</a>';
-            $carousel .= '<a href="#" class="btn-child btn btn-primary custom-button yellow-btn" style="margin: -15px 11px 0 11px">Shop</a>';
+            $carousel .= '<a href="'.$button[0].'" class="btn-child btn btn-primary custom-button red-btn" style="margin: -15px 11px 0 11px" target="_blank">More</a>';
+            $carousel .= '<a href="'.$button[1].'" class="btn-child btn btn-primary custom-button yellow-btn" style="margin: -15px 11px 0 11px" target="_blank">Shop</a>';
 
             // close caption div
             $carousel .= '</div><!-- .carousel-caption -->';

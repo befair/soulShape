@@ -14,6 +14,7 @@ License: GPLv3
 #main-nav {
     position: absolute;
 }
+
 .navbar-right {
     float: none !important;
 }
@@ -172,6 +173,26 @@ License: GPLv3
     border: 1px solid #e9e9e9;
 }
 
+.in {
+    background: #101010 !important;
+}
+
+fieldset {
+    border: 1px solid #808080;
+    padding: 10px;
+}
+
+legend {
+    width: auto;
+    padding: 5px;
+}
+
+.box_right input[type="text"] {
+    margin-right: 46% !important;
+    float: right;
+    width: 30%;
+}
+
 /* Indigenous people */
 .page-id-170 .site-content .container {
     width: 100vw;
@@ -224,12 +245,29 @@ License: GPLv3
 
 .carousel-caption p {
     text-align: center;
+    font-style: italic;
     padding-top: 20px;
     font-size: 2.9vh;
     line-height: 115%;
 }
 
-.page-id-170 .navbar {
-    background: transparent;
-    padding-bottom: 20px;
+@font-face {
+    font-family: CFCivilisationMaya-Regular;
+    src: url('fonts/CFCivilisationMaya-Regular.ttf');
+}
+
+.page-id-170 h2{
+    font-family: CFCivilisationMaya-Regular;
+    font-size: 85px;
+    font-weight: 500;
+    margin-bottom: 25px;
+    margin-top: 25px;
+}
+
+.navbar {
+    padding-bottom: 20px !important;
+}
+
+.site-main p {
+    margin: 0px 18px 24px;
 }

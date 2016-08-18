@@ -1,5 +1,8 @@
 <?php
 require_once("/var/www/html/soulShape/wp/soulshape.earth/wp-load.php");
+require_once( ABSPATH . 'wp-admin/includes/image.php' );
+require_once( ABSPATH . 'wp-admin/includes/file.php' );
+require_once( ABSPATH . 'wp-admin/includes/media.php' );
 
 /* Sketchfab upload */
 $fileType = pathinfo($_FILES['fileToUpload']['name'], PATHINFO_EXTENSION);
@@ -55,17 +58,21 @@ if ($uploadOk != 0)
 
 /* Woocommerce product insert */
 $name = $_POST['name'];
-$uid = split('"', $result)[3];
+$uid = preg_split('"', $result)[3];
 $short_desc = $_POST['short_desc'];
 $long_desc = $_POST['long_desc'];
-$image = $_FILES['image'];
 $population = $_POST['population'];
+$weight = $_POST['weight'];
+$length = $_POST['length'];
+$width = $_POST['width'];
+$height = $_POST['height'];
 $age = $_POST['age'];
 $price = 5;
 
 $post = array(
     'post_author' => $user_id,
-    'post_content' => $short_desc,
+    'post_excerpt' => $short_desc,
+    'post_content' => $long_desc,
     'post_status' => "publish",
     'post_title' => $name,
     'post_parent' => '',
@@ -76,8 +83,8 @@ $post = array(
 $post_id = wp_insert_post($post, $wp_error);
 
 if($post_id) {
-    $attach_id = get_post_meta($product->parent_id, "_thumbnail_id", true);
-    add_post_meta($post_id, '_thumbnail_id', $attach_id);
+    $image = media_handle_upload('image');
+    add_post_meta($post_id, '_thumbnail_id', $image);
 
     wp_set_object_terms($post_id, '3D Model', 'product_cat');
     wp_set_object_terms($post_id, 'simple', 'product_type');
@@ -91,10 +98,10 @@ if($post_id) {
     update_post_meta($post_id, '_sale_price', $price/2);
     update_post_meta($post_id, '_purchase_note', "");
     update_post_meta($post_id, '_featured', "no");
-    update_post_meta($post_id, '_weight', "");
-    update_post_meta($post_id, '_length', "");
-    update_post_meta($post_id, '_width', "");
-    update_post_meta($post_id, '_height', "");
+    update_post_meta($post_id, '_weight', $weight);
+    update_post_meta($post_id, '_length', $length);
+    update_post_meta($post_id, '_width', $width);
+    update_post_meta($post_id, '_height', $height);
     update_post_meta($post_id, '_sku', "");
 
     $data = Array('pa_population'=>Array(
@@ -120,9 +127,9 @@ if($post_id) {
     update_post_meta($post_id, '_sold_individually', "");
     update_post_meta($post_id, '_manage_stock', "no");
     update_post_meta($post_id, '_backorders', "no");
-    update_post_meta($post_id, '_images', $image);
     update_post_meta($post_id, '_stock', "");
     update_post_meta($post_id, 'post_iframe', '<iframe width="640" height="480" src="https://sketchfab.com/models/'.$uid.'/embed" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" onmousewheel=""></iframe>');
+
 
     // file paths will be stored in an array keyed off md5(file path)
     // $downdloadArray = array('name'=>"Test", 'file'=>$uploadDIR['baseurl']."/video/".$video);
@@ -136,8 +143,8 @@ if($post_id) {
     update_post_meta( $post_id, '_download_limit', '');
     update_post_meta( $post_id, '_download_expiry', '');
     update_post_meta( $post_id, '_download_type', '');
-    update_post_meta( $post_id, '_product_image_gallery', $image);
 }
+
 /* Woocommerce product insert */
 $shop_url = "http://2.236.89.96/soulShape/wp/soulshape.earth/?post_type=product";
 header('Location: '.$shop_url);

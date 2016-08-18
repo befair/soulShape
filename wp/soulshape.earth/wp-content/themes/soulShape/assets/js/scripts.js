@@ -112,7 +112,7 @@ if (navigator.userAgent.match(/IEMobile\/10\.0/)) {
  ===  STICKY NAV                 ====
 
  =================================== */
-jQuery( document ).ready( function($) {
+/*jQuery( document ).ready( function($) {
     $( window ).scroll( function() {
         var homeHeaderWrap = $( '.home-header-wrap' );
         var homeHeaderWrapHeight = $( homeHeaderWrap ).height();
