@@ -67,7 +67,8 @@ if ( ! defined( 'ABSPATH' ) ) {
                 global $product;
                 $product->list_attributes();
             }
-
+            remove_action('woocommerce_single_product_summary', 'woocommerce_template_single_excerpt', 20);
+            add_action('woocommerce_single_product_summary', 'woocommerce_template_single_excerpt', 6);
             add_action('woocommerce_single_product_summary', 'add_info', 7);
 			do_action('woocommerce_single_product_summary');
 		?>
