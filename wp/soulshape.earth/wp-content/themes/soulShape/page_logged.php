@@ -52,5 +52,5 @@ get_header(); ?>
 <?php get_footer(); ?>
 
 <?php else:
-wp_die('Sorry, you must first <a href="/wp-login.php">log in</a> to view this page. You can <a href="/wp-login.php?action=register">register free here</a>.');
+wp_die('Sorry, you must first <a href="?page_id=90">log in</a> to view this page. You can <a href="?page_id=113">register free here</a>.');
 endif; ?>
