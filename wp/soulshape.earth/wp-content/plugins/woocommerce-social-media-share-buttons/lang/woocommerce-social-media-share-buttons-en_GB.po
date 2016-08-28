@@ -1,0 +1,203 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: WooCommerce Social Media Share Buttons v1.0.2\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-02-11 10:48+0100\n"
+"PO-Revision-Date: 2016-02-11 10:49+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: en_GB\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Poedit 1.8.1\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;"
+"_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2\n"
+"X-Poedit-Basepath: ../\n"
+"X-Textdomain-Support: yes\n"
+"X-Poedit-SearchPath-0: .\n"
+
+# @ woocommerce-social-media-share-buttons
+#: index.php:459
+msgid "WooCoomerce Social Media Share Buttons - Settings"
+msgstr "WooCoomerce Social Media Share Buttons - Settings"
+
+# @ woocommerce-social-media-share-buttons
+#: index.php:462
+msgid "Your settings have been saved."
+msgstr "Your settings have been saved."
+
+# @ woocommerce-social-media-share-buttons
+#: index.php:464
+msgid ""
+"<p>By default the plugin adds social media share buttons to your woocommerce "
+"store products page (just below the 'add to cart' button). With the addition "
+"of a shortcode you can use it to add social media share buttons in posts, "
+"pages, products, events, widget etc.</p>\n"
+"        <p>Use shortcode to add social media share buttons to posts, pages, "
+"products, events etc. [woocommerce_social_media_share_buttons]</p>\n"
+"        <p>Add shortcode to your WordPress theme, or php widget. &lt;?php "
+"echo do_shortcode( '[woocommerce_social_media_share_buttons]' ); ?></p>"
+msgstr ""
+"<p>By default the plugin adds social media share buttons to your woocommerce "
+"store products page (just below the 'add to cart' button). With the addition "
+"of a shortcode you can use it to add social media share buttons in posts, "
+"pages, products, events, widget etc.</p>\n"
+"        <p>Use shortcode to add social media share buttons to posts, pages, "
+"products, events etc. [woocommerce_social_media_share_buttons]</p>\n"
+"        <p>Add shortcode to your WordPress theme, or php widget. &lt;?php "
+"echo do_shortcode( '[woocommerce_social_media_share_buttons]' ); ?></p>"
+
+#: index.php:469
+msgid "Share Button Format"
+msgstr "Share Button Format"
+
+# @ woocommerce-social-media-share-buttons
+#: index.php:473
+msgid "Button"
+msgstr "Button"
+
+# @ woocommerce-social-media-share-buttons
+#: index.php:475
+msgid "Button with counter"
+msgstr "Button with counter"
+
+# @ woocommerce-social-media-share-buttons
+#: index.php:477
+msgid "Box with counter"
+msgstr "Box with counter"
+
+# @ woocommerce-social-media-share-buttons
+#: index.php:480
+msgid ""
+"Note: Some buttons do not show the share count until the url has been shared "
+"atleast once. Email does not show the share count at all."
+msgstr ""
+"Note: Some buttons do not show the share count until the url has been shared "
+"atleast once. Email does not show the share count at all."
+
+#: index.php:482
+msgid ""
+"You can override the button format setting by uploading a custom button "
+"image below."
+msgstr ""
+"You can override the button format setting by uploading a custom button "
+"image below."
+
+#: index.php:485
+msgid "Social Media Share Buttons"
+msgstr "Social Media Share Buttons"
+
+# @ woocommerce-social-media-share-buttons
+#: index.php:490
+msgid "Facbook"
+msgstr "Facbook"
+
+# @ woocommerce-social-media-share-buttons
+#: index.php:494
+msgid "Twitter"
+msgstr "Twitter"
+
+# @ woocommerce-social-media-share-buttons
+#: index.php:498
+msgid "Google Plus"
+msgstr "Google Plus"
+
+# @ woocommerce-social-media-share-buttons
+#: index.php:502
+msgid "Pinterest"
+msgstr "Pinterest"
+
+# @ woocommerce-social-media-share-buttons
+#: index.php:506
+msgid "Tumblr"
+msgstr "Tumblr"
+
+# @ woocommerce-social-media-share-buttons
+#: index.php:510
+msgid "Linkedin"
+msgstr "Linkedin"
+
+# @ woocommerce-social-media-share-buttons
+#: index.php:514
+msgid "StumbleUpon"
+msgstr "StumbleUpon"
+
+# @ woocommerce-social-media-share-buttons
+#: index.php:518
+msgid "VKontakte"
+msgstr "VKontakte"
+
+# @ woocommerce-social-media-share-buttons
+#: index.php:522
+msgid "Email"
+msgstr "Email"
+
+#: index.php:530
+msgid "Open Graph Settings"
+msgstr "Open Graph Settings"
+
+#: index.php:534
+msgid "Automatically add open graph meta data to site header. "
+msgstr "Automatically add open graph meta data to site header. "
+
+#: index.php:538
+msgid "Share button title text"
+msgstr "Share button title text"
+
+#: index.php:542
+msgid ""
+"Add a title above the share buttons (title is set to heading 3 style format, "
+"class \"wsmsb_title\")."
+msgstr ""
+"Add a title above the share buttons (title is set to heading 3 style format, "
+"class \"wsmsb_title\")."
+
+#: index.php:547
+msgid "Email share content"
+msgstr "Email share content"
+
+#: index.php:551
+msgid "Change the default email share content"
+msgstr "Change the default email share content"
+
+# @ woocommerce-social-media-share-buttons
+#: index.php:558
+msgid "Save Settings"
+msgstr "Save Settings"
+
+# @ woocommerce-social-media-share-buttons
+#~ msgid "Which share buttons would you like to show?"
+#~ msgstr "Which share buttons would you like to show?"
+
+# @ woocommerce-social-media-share-buttons
+#~ msgid "What format do you want the share buttons?"
+#~ msgstr "What format do you want the share buttons?"
+
+# @ woocommerce-social-media-share-buttons
+#~ msgid "WooCommerce Social Media Share Buttons"
+#~ msgstr "WooCommerce Social Media Share Buttons"
+
+# @ woocommerce-social-media-share-buttons
+#~ msgid "http://www.toastiestudio.com"
+#~ msgstr "http://www.toastiestudio.com"
+
+# @ woocommerce-social-media-share-buttons
+#~ msgid ""
+#~ "The Woocommerce Social Media Share Buttons plugin allows visitors to your "
+#~ "woocommerce shop to easily share your products on popular social media "
+#~ "platforms."
+#~ msgstr ""
+#~ "The Woocommerce Social Media Share Buttons plugin allows visitors to your "
+#~ "woocommerce shop to easily share your products on popular social media "
+#~ "platforms."
+
+# @ woocommerce-social-media-share-buttons
+#~ msgid "Toastie Studio"
+#~ msgstr "Toastie Studio"
+
+# @ woocommerce-social-media-share-buttons
+#~ msgid "1.0.2"
+#~ msgstr "1.0.2"

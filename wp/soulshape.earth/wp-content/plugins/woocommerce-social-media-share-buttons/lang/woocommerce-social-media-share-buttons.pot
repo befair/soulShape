@@ -1,0 +1,102 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2015-07-18 11:37+0100\n"
+"PO-Revision-Date: 2015-07-18 11:39+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: en_GB\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.1\n"
+"X-Poedit-Basepath: ..\\\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-KeywordsList: _e\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: index.php:330
+msgid "WooCoomerce Social Media Share Buttons - Settings"
+msgstr ""
+
+#: index.php:333
+msgid "Your settings have been saved."
+msgstr ""
+
+#: index.php:335
+msgid ""
+"<p>By default the plugin adds social media share buttons to your woocommerce "
+"store products page (just below the 'add to cart' button). With the addition "
+"of a shortcode you can use it to add social media share buttons in posts, "
+"pages, products, events, widget etc.</p>\n"
+"        <p>Use shortcode to add social media share buttons to posts, pages, "
+"products, events etc. [woocommerce_social_media_share_buttons]</p>\n"
+"        <p>Add shortcode to your WordPress theme, or php widget. &lt;?php "
+"echo do_shortcode( '[woocommerce_social_media_share_buttons]' ); ?></p>"
+msgstr ""
+
+#: index.php:340
+msgid "Which share buttons would you like to show?"
+msgstr ""
+
+#: index.php:343
+msgid "Facbook"
+msgstr ""
+
+#: index.php:345
+msgid "Twitter"
+msgstr ""
+
+#: index.php:347
+msgid "Google Plus"
+msgstr ""
+
+#: index.php:349
+msgid "Pinterest"
+msgstr ""
+
+#: index.php:351
+msgid "Tumblr"
+msgstr ""
+
+#: index.php:353
+msgid "Linkedin"
+msgstr ""
+
+#: index.php:355
+msgid "StumbleUpon"
+msgstr ""
+
+#: index.php:357
+msgid "VKontakte"
+msgstr ""
+
+#: index.php:359
+msgid "Email"
+msgstr ""
+
+#: index.php:362
+msgid "What format do you want the share buttons?"
+msgstr ""
+
+#: index.php:366
+msgid "Button"
+msgstr ""
+
+#: index.php:368
+msgid "Button with counter"
+msgstr ""
+
+#: index.php:370
+msgid "Box with counter"
+msgstr ""
+
+#: index.php:374
+msgid ""
+"Note: Some buttons do not show the share count until the url has been shared "
+"atleast once. Email does not show the share count at all."
+msgstr ""
+
+#: index.php:378
+msgid "Save Settings"
+msgstr ""
