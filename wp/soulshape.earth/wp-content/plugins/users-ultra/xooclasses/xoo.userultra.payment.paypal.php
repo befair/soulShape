@@ -64,31 +64,7 @@ class XooPaypalPayment
 		
 							
 				
-		$sql ='SHOW columns from ' . $wpdb->prefix . 'usersultra_packages where field="package_limit_galleries" ';		
-		$rows = $wpdb->get_results($sql);		
-		if ( empty( $rows ) )
-		{	
-			$sql = 'Alter table  ' . $wpdb->prefix . 'usersultra_packages add column package_limit_galleries int (11) ; ';
-			//$wpdb->query($sql);
-		}
 		
-		$sql ='SHOW columns from ' . $wpdb->prefix . 'usersultra_packages where field="package_limit_posts" ';		
-		$rows = $wpdb->get_results($sql);		
-		if ( empty( $rows ) )
-		{	
-			$sql = 'Alter table  ' . $wpdb->prefix . 'usersultra_packages add column package_limit_posts int (11) ; ';
-			//$wpdb->query($sql);
-		}
-		
-		$sql ='SHOW columns from ' . $wpdb->prefix . 'usersultra_packages where field="package_approvation" ';		
-		$rows = $wpdb->get_results($sql);		
-		if ( empty( $rows ) )
-		{	
-			$sql = 'Alter table  ' . $wpdb->prefix . 'usersultra_packages add column package_approvation varchar (5) ; ';
-			//$wpdb->query($sql);
-		}
-		
-				
 		
 	}
 	

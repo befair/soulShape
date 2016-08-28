@@ -240,8 +240,7 @@ class XooUserPhoto {
 		//photo width
 		if($photo_width!="")
 		{
-			$photo_width = "style='width:".$photo_width."'";
-		
+			$photo_width = "style='width:".$photo_width."'";		
 		}
 		
 		$key = "";		
@@ -264,8 +263,7 @@ class XooUserPhoto {
 		$cat_list = "";		
 		if(isset($_GET["uultra_cat_search"]))
 		{
-			$cat_list = $this->get_select_cat_list($_GET["uultra_cat_search"] );
-		
+			$cat_list = $this->get_select_cat_list($_GET["uultra_cat_search"] );		
 		}				
 		
 		//$upload_folder =  $xoouserultra->get_option('media_uploading_folder');
@@ -307,7 +305,6 @@ class XooUserPhoto {
 
 				
 		$rows = $this->get_photos_searching($key, $cat_list , $from, $to);	
-		
 	
 		$html.='<div class="uultra-photogrid-photos">
 			
@@ -329,11 +326,9 @@ class XooUserPhoto {
 		
 		
          if($searcher_type=="advanced")
-		{	
-			
+		{			
 			//get categories			
-			 $html.='<p> '. __('Filter by category: ','xoousers').''.$this->get_photo_category_check().'</p>';
-		
+			 $html.='<p> '. __('Filter by category: ','xoousers').''.$this->get_photo_category_check().'</p>';		
 		
 		}
          
@@ -347,10 +342,7 @@ class XooUserPhoto {
 		{
 		
 		
-		}else{
-			
-			
-                    
+		}else{                   
 			
 			foreach ( $rows as $photo )
 			{
@@ -375,22 +367,16 @@ class XooUserPhoto {
 				if($photo_open_type=="lightbox")
 				{
 					$ddbox = 'data-lightbox="example-1"';	
-					$photo_link = 	 $site_url.$upload_folder."/".$user_id."/".$photo->photo_large;		
-				
+					$photo_link = 	 $site_url.$upload_folder."/".$user_id."/".$photo->photo_large;					
 			
 				}else{
 					
-					$ddbox = '';	
-					
-					$photo_link = $xoouserultra->userpanel->public_profile_get_photo_link($photo->photo_id, $user_id);
-					
+					$ddbox = '';					
+					$photo_link = $xoouserultra->userpanel->public_profile_get_photo_link($photo->photo_id, $user_id);			
 				
 				}
-				
-				
 					
-				$thumb = $site_url.$upload_folder."/".$user_id."/".$file;
-					
+				$thumb = $site_url.$upload_folder."/".$user_id."/".$file;					
 								
 				$html.= "<li id='".$photo->photo_id."' class='".$box_border." ".$box_shadow." ".$display."'  ".$b_width." >
 										

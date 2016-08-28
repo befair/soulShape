@@ -49,8 +49,7 @@ class XooUserLogin {
 		{
 			$this->mIsSocialLogin = true;
 			/* authorize */
-			$this->google_authorize();
-			
+			$this->google_authorize();			
 				
 		}
 		
@@ -335,7 +334,6 @@ class XooUserLogin {
 		//special feature for yahoo and google	
 	public function social_login_links_oauth()
 	{
-		//require_once(ABSPATH . 'wp-includes/pluggable.php');
 		require_once(ABSPATH . 'wp-includes/user.php');
 		
 		global  $xoouserultra, $blog_id;
@@ -346,8 +344,7 @@ class XooUserLogin {
 		{		
 			$auth_url_google = $this->get_google_auth_url();
 			wp_redirect($auth_url_google);
-			exit;
-			
+			exit;			
 		}
 		
 		if (isset($_GET['uultrasocialsignup']) && $_GET['uultrasocialsignup']=="twitter") 
@@ -367,7 +364,6 @@ class XooUserLogin {
 			exit;
 			
 		}
-		
 		
 		//linked in		
 		if (isset($_GET['uultrasocialsignup']) && $_GET['uultrasocialsignup']=="linkedin") 
@@ -426,7 +422,6 @@ class XooUserLogin {
 		)); 
 		
 		return $loginUrl;	
-		
 		
 	}
 	

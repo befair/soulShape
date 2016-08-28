@@ -4,7 +4,7 @@ Donate link: https://usersultra.com/donate.html
 Tags: users, users community, community, members, profiles, subscription, recurring, paypal, membership
 Requires at least: 3.0.1
 Tested up to: 4.5
-Stable tag: 1.5.86
+Stable tag: 1.5.87
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -400,6 +400,11 @@ Initial release.
 10. Dahsboard
 
 == Changelog ==
+
+= 1.5.87(08-24-2016) =
+* Improvement - Language Update.
+* Improvement - Tweaks for new version of WP.
+* Improvement - Social Login options update.
 
 = 1.5.86(07-26-2016) =
 * Improvement - Source code optimization. Remove some SQL queries from the plugin.
