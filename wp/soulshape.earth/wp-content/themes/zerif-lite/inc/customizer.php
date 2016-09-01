@@ -35,33 +35,43 @@ function zerif_customize_register( $wp_customize ) {
 	}
 	class Zerif_Theme_Support extends WP_Customize_Control {
 		public function render_content() {
-			echo __('Check out the <a href="http://themeisle.com/themes/zerif-pro-one-page-wordpress-theme/">PRO version</a> for full control over the frontpage SECTIONS ORDER and the COLOR SCHEME!','zerif-lite');
 		}
 	}
 
 	class Zerif_Theme_Support_Videobackground extends WP_Customize_Control {
 		public function render_content() {
-			echo __('Check out the <a href="http://themeisle.com/themes/zerif-pro-one-page-wordpress-theme/">PRO version</a> to add a nice looking background video!','zerif-lite');
 		}
 	}
-	
-	class Zerif_Theme_Support_Googlemap extends WP_Customize_Control {
-		public function render_content() {
-			echo __('Check out the <a href="http://themeisle.com/themes/zerif-pro-one-page-wordpress-theme/">PRO version</a> to add a google maps section !','zerif-lite');
+
+	class Zerif_Customizer_Upsell extends WP_Customize_Section {
+		public $type = 'zerif-upsell';
+		public function render() {
+			$classes = 'accordion-section control-section-' . $this->type;
+			$id = 'zerif-upsell-buttons-section';
+			?>
+			<li id="accordion-section-<?php echo esc_attr($this->id); ?>"class="<?php echo esc_attr($classes); ?>">
+				<a class="zerif-upgrade-to-pro-button" href="http://themeisle.com/themes/zerif-pro-one-page-wordpress-theme/" class="button" target="_blank"><?php echo __('View PRO version', 'zerif-lite'); ?></a>
+				<a style="width: 80%; margin: 10px auto 5px auto; display: block; text-align: center;" href="http://themeisle.com/documentation-zerif-lite" class="button" target="_blank">
+			<?php echo __('View Documentation','zerif-lite'); ?> </a>
+				<a style="width: 80%; margin: 5px auto 10px auto; display: block; text-align: center;" href="<?php echo esc_url( admin_url( 'themes.php?page=zerif-lite-welcome#actions_required' ) ); ?>" class="button" target="_blank"><?php echo __('View Theme Info','zerif-lite'); ?></a>
+			</li>
+			<?php
 		}
-	} 
-	
-	class Zerif_Theme_Support_Pricing extends WP_Customize_Control {
-		public function render_content() {
-			echo __('Check out the <a href="http://themeisle.com/themes/zerif-pro-one-page-wordpress-theme/">PRO version</a> to add a pricing section !','zerif-lite');
-		}
-	} 
-	
+	}
+
 	$wp_customize->get_setting( 'blogname' )->transport         = 'postMessage';
 	$wp_customize->get_setting( 'blogdescription' )->transport  = 'postMessage';
 	$wp_customize->get_setting( 'header_textcolor' )->transport = 'postMessage';
 	$wp_customize->remove_section('colors');
-	
+
+	/***********************************************/
+	/******************* UPSELL ********************/
+	/***********************************************/
+
+	$wp_customize->add_section( new Zerif_Customizer_Upsell( $wp_customize, 'zerif-upsell', array(
+		'priority'   => '-1',
+	) ) );
+
 	/**********************************************/
 	/*************** ORDER ************************/
 	/**********************************************/
@@ -1204,6 +1214,27 @@ function zerif_customize_register( $wp_customize ) {
 			'priority' => 17
 		)));
 
+        /* ABOUT US CLIENTS TITLE */
+
+        $wp_customize->add_section( 'zerif_aboutus_clients_title_section' , array(
+            'title'       => 'Clients area title',
+            'priority'    => 7,
+            'panel' => 'panel_about'
+        ));
+
+        $wp_customize->add_setting( 'zerif_aboutus_clients_title_text', array(
+            'sanitize_callback' => 'zerif_sanitize_input',
+            'default' => __( 'OUR HAPPY CLIENTS','zerif-lite' ),
+            'transport' => 'postMessage'
+        ) );
+
+        $wp_customize->add_control( 'zerif_aboutus_clients_title_text', array(
+            'label'    => 'Title',
+            'description' => 'This title appears only if you have widgets in the About us sidebar.',
+            'section'  => 'zerif_aboutus_clients_title_section',
+            'priority'    => 1,
+        ));
+
 	else:	/* Old versions of WordPress */
 
 		$wp_customize->add_section( 'zerif_aboutus_section' , array(
@@ -1416,6 +1447,18 @@ function zerif_customize_register( $wp_customize ) {
 			'section' => 'zerif_aboutus_section',
 			'priority'    => 17
 		)));
+
+        $wp_customize->add_setting( 'zerif_aboutus_clients_title_text', array(
+            'sanitize_callback' => 'zerif_sanitize_input',
+            'default' => __( 'OUR HAPPY CLIENTS','zerif-lite' )
+        ) );
+
+        $wp_customize->add_control( 'zerif_aboutus_clients_title_text', array(
+            'label'    => 'Clients widgets area title',
+            'description' => 'This title appears only if you have widgets in the About us sidebar.',
+            'section'  => 'zerif_aboutus_section',
+            'priority'    => 18,
+        ));
 
 	endif;
 
@@ -1993,40 +2036,6 @@ function zerif_customize_register( $wp_customize ) {
 		'section'  => 'zerif_contactus_section',
 		'priority'    => 8,
 	));
-
-	/****************************************/
-	/*******	Google maps section *********/
-	/****************************************/
-	
-	$wp_customize->add_section( 'zerif_googlemap_section' , array(
-		'title'       => __( 'Google maps section', 'zerif-lite' ),
-		'priority'    => 120
-	));
-	
-	$wp_customize->add_setting(	'zerif_googlemap_section', array(
-		'sanitize_callback' => 'sanitize_text_field'
-	));
-	
-	$wp_customize->add_control( new Zerif_Theme_Support_Googlemap( $wp_customize, 'zerif_googlemap_section', array(
-		'section' => 'zerif_googlemap_section',
-	)));
-	
-	/***************************************/
-	/**********	  Pricing section   ********/
-	/***************************************/
-	
-	$wp_customize->add_section( 'zerif_pricing_section' , array(
-		'title'       => __( 'Pricing section', 'zerif-lite' ),
-		'priority'    => 121
-	));
-	
-	$wp_customize->add_setting( 'zerif_pricing_section', array(
-		'sanitize_callback' => 'sanitize_text_field'
-	));
-	
-	$wp_customize->add_control( new Zerif_Theme_Support_Pricing( $wp_customize, 'zerif_pricing_section', array(
-		'section' => 'zerif_pricing_section',
-	)));
 	
 }
 add_action( 'customize_register', 'zerif_customize_register' );
