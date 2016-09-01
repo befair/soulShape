@@ -66,7 +66,11 @@ function rise_lite_remove_footer_sidebars(){
 }
 add_action( 'widgets_init', 'rise_lite_remove_footer_sidebars', 11 );
 
-### Soulshape Custom ###
-remove_action('woocommerce_before_shop_loop', 'woocommerce_catalog_ordering', 30);
-add_action('get_sidebar','woocommerce_catalog_ordering');
+/* Soulshape Custom */
+function override_page_title() {
+    return false;
+}
 
+add_filter('woocommerce_show_page_title', 'override_page_title');
+remove_action('woocommerce_before_shop_loop', 'woocommerce_result_count', 20);
+remove_action('woocommerce_before_shop_loop', 'woocommerce_catalog_ordering', 30);

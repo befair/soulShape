@@ -16,16 +16,19 @@ get_header(); ?>
     <div class="container">
         <?php 
             if($_GET['post_type'] == "product") { ?>
-                <div class="content-left-wrap col-md-9">
+                <div class="col-md-12">
                     <div id="primary" class="content-area">
                         <main id="main" class="site-main" role="main">
                             <?php woocommerce_content(); ?>
                         </main>
                     </div>
                 </div>
-                <div class="sidebar-wrap col-md-3 content-left-wrap">
+                <div class="sidebar">
                     <?php get_sidebar(); ?>
                 </div>
+                <a class="toogle_sidebar" style="cursor: pointer">
+                    <img src="wp-content/themes/soulShape/assets/images/filter.png" class="filter"/>
+                </a>
             <?php 
             }
             else { ?>
@@ -37,6 +40,6 @@ get_header(); ?>
                     </div>
                 </div>
             <?php
-            } ?> 
+            } ?>
     </div>
 <?php get_footer(); ?>

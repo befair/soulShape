@@ -794,3 +794,20 @@ jQuery( document ).ready( function() {
       });
     }
 })(jQuery,window);
+
+
+$('.toogle_sidebar').toggle(
+    function() {
+        $('.sidebar').css('animation', 'sidebar_in 1s');
+        $('.sidebar').css('-webkit-animation', 'sidebar_in 1s');
+        $('.sidebar').css('width', '200px');
+        $('.sidebar').css('display', 'block');
+    }, function() {
+        $('.sidebar').css('animation', 'sidebar_out 1s');
+        $('.sidebar').css('-webkit-animation', 'sidebar_out 1s');
+        $('.sidebar').css('width', '0');
+        setTimeout(function(){
+            $('.sidebar').css('display', 'none');
+        }, 500);
+    }
+)
