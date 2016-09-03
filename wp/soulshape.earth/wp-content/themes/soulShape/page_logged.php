@@ -52,5 +52,6 @@ get_header(); ?>
 <?php get_footer(); ?>
 
 <?php else:
-wp_die('Sorry, you must first <a href="?page_id=90">log in</a> to view this page. You can <a href="?page_id=113">register free here</a>.');
+wp_die('<img src="wp-content/uploads/2016/08/Senza-titolo-1.png" style="width: 100%; filter: invert(100%);"/>
+        <p>Sorry, you must first <a href="?page_id=90">log in</a> to view this page. You can <a href="?page_id=113">register free here</a>.</p>');
 endif; ?>
