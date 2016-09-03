@@ -58,6 +58,10 @@
 			<div class="mobile-bg-fix-whole-site">
 				<header id="home" class="header">
 					<div id="main-nav" class="navbar navbar-inverse bs-docs-nav" role="banner">
+                        <div class="account-stuff">
+                            <a href="?page_id=90" style="margin-right:15px">LOGIN</a>
+                            <a href="?page_id=113">SIGN UP</a>
+                        </div>
 						<div class="container">
 							<div class="navbar-header responsive-logo">
 								<button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
