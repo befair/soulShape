@@ -1,0 +1,7 @@
+<div class="home-header-wrap">
+    <div id="homevideo">
+    <video autoplay loop mute>
+        <source src="wp-content/uploads/2016/08/soulShape-Trailer.mp4"/>
+    </video> 
+    </div>
+</div>

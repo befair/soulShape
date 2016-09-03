@@ -224,25 +224,22 @@ if( !function_exists( 'rise_lite_customizer' ) ) {
         $wp_customize->add_panel( 'panel_ourfocus', array(
             'priority' => 32,
             'capability' => 'edit_theme_options',
-            'title' => __( 'Problem section', 'zerif-lite' )
+            'title' => __( '1st section', 'zerif-lite' )
         ));
-
-        $wp_customize->add_panel( 'panel_about', array(
-            'priority' => 34,
-            'capability' => 'edit_theme_options',
-            'title' => __( 'Solution section', 'zerif-lite' )
-        ));
+    
+        
+        $wp_customize->remove_panel( 'panel_about');
 
         $wp_customize->add_panel( 'panel_ourteam', array(
             'priority' => 35,
             'capability' => 'edit_theme_options',
-            'title' => __( 'Business section', 'zerif-lite' )
+            'title' => __( '3rd section', 'zerif-lite' )
         ));
     
         $wp_customize->add_panel( 'panel_testimonials', array(
             'priority' => 36,
             'capability' => 'edit_theme_options',
-            'title' => __( 'Map section', 'zerif-lite' )
+            'title' => __( '4th section', 'zerif-lite' )
         ));
 	}
 }

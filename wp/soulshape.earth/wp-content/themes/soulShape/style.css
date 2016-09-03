@@ -394,3 +394,67 @@ video {
     padding-left: 0px !important;
     padding-right: 0px !important;
 }
+
+
+.home-market {
+    padding: 0 !important;
+    font-family: 'Lato', Helvetica, sans-serif; 
+}
+
+.home-market .col-md-6 {
+    padding-left: 0;
+    padding-right: 0;
+    overflow: hidden;
+}
+
+.home-market .col-md-4 {
+    padding-left: 0;
+    padding-right: 0;
+    overflow: hidden;
+}
+
+.home-market .col-md-3 {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.home-market .col-md-8 {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.home-market-img {
+    width: 100%;
+    -moz-transition: all .35s ease-in-out;
+    -o-transition: all .35s ease-in-out;
+    -webkit-transition: all .35s ease-in-out;
+    transition: all .35s ease-in-out;
+    -moz-transform: scale(1);
+    -ms-transform: scale(1);
+    -webkit-transform: scale(1);
+    transform: scale(1);
+}
+
+.home-market-img:hover {
+    opacity: .6;
+    -moz-transition: all .35s ease-in-out;
+    -o-transition: all .35s ease-in-out;
+    -webkit-transition: all .35s ease-in-out;
+    transition: all .35s ease-in-out;
+    -moz-transform: scale(1.1);
+    -ms-transform: scale(1.1);
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
+}
+
+.home-market-caption {
+    text-decoration: underline;
+    position: absolute;
+    top: 60%;
+    left: 0px;
+    width: 100%;
+}
+
+.home-market-dsc {
+    padding: 5%;
+}
