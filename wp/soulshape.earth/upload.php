@@ -51,18 +51,20 @@ if ($uploadOk != 0)
 
     $result = curl_exec($ch);
 
-    if($result == false)
-        exit;
+    if(is_null($result)) {
+        echo "<script>alert('Something gone wrong during upload, retry');</script>";
+        exit(100);
+    }
 }
 /* Sketchfab upload */
 
 /* Woocommerce product insert */
 $name = $_POST['name'];
-$uid = preg_split('"', $result)[3];
-$short_desc = $_POST['short_desc'];
+$uid = preg_split('/"/', $result)[3];
+//$short_desc = $_POST['short_desc'];
+$short_desc = '';
 $long_desc = $_POST['long_desc'];
 $population = $_POST['population'];
-$weight = $_POST['weight'];
 $length = $_POST['length'];
 $width = $_POST['width'];
 $height = $_POST['height'];
@@ -95,10 +97,9 @@ if($post_id) {
     update_post_meta($post_id, '_downloadable', 'yes');
     update_post_meta($post_id, '_virtual', 'yes');
     update_post_meta($post_id, '_regular_price', $price);
-    update_post_meta($post_id, '_sale_price', $price/2);
+    //update_post_meta($post_id, '_sale_price', $price);
     update_post_meta($post_id, '_purchase_note', "");
     update_post_meta($post_id, '_featured', "no");
-    update_post_meta($post_id, '_weight', $weight);
     update_post_meta($post_id, '_length', $length);
     update_post_meta($post_id, '_width', $width);
     update_post_meta($post_id, '_height', $height);

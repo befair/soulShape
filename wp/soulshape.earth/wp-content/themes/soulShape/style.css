@@ -1,57 +1,57 @@
-/*
-Theme Name: soulShape 
-Description: Derived from Rise Lite for soulShape.earth 
-Author: Radeox/AzzeccaGarbugli 
-Template: zerif-lite
-Version: 1.0
-License: GPLv3 
-*/
+    /*
+    Theme Name: soulShape 
+    Description: Derived from Rise Lite for soulShape.earth 
+    Author: Radeox/AzzeccaGarbugli 
+    Template: zerif-lite
+    Version: 1.0
+    License: GPLv3 
+    */
 
-.intro-text {
-    font-size: 52px;
-}
+    .intro-text {
+        font-size: 52px;
+    }
 
-#main-nav {
-    position: absolute;
-}
+    #main-nav {
+        position: absolute;
+    }
 
-.navbar-right {
-    float: none !important;
-}
+    .navbar-right {
+        float: none !important;
+    }
 
-.home .header, .header-content-wrap {
-    height: 100vh;
-}
+    .home .header, .header-content-wrap {
+        height: 100vh;
+    }
 
-.home .header-content-wrap {
-    padding-top: 40vh !important;
-}
+    .home .header-content-wrap {
+        padding-top: 40vh !important;
+    }
 
-.service-icon {
-    height: 250px !important;
-    width: 255px !important;
-}
+    .service-icon {
+        height: 250px !important;
+        width: 255px !important;
+    }
 
-.focus .container {
-    width: 100%;
-}
+    .focus .container {
+        width: 100%;
+    }
 
-.about-us .container {
-    width: 100%;
-    padding: 0px !important;
-}
+    .about-us .container {
+        width: 100%;
+        padding: 0px !important;
+    }
 
 
-.focus {
-    background-color: rgb(183, 31, 56);
-}
+    .focus {
+        background-color: rgb(183, 31, 56);
+    }
 
-.client-list div {
-    display: inline-block;
-    float: none !important;
-    margin-right: -4px;
-    vertical-align: top;
-    margin-bottom: 25px;
+    .client-list div {
+        display: inline-block;
+        float: none !important;
+        margin-right: -4px;
+        vertical-align: top;
+        margin-bottom: 25px;
 }
 
 .clients-section-title {
@@ -187,10 +187,8 @@ legend {
     padding: 5px;
 }
 
-.box_right input[type="text"] {
-    margin-right: 46% !important;
-    float: right;
-    width: 30%;
+.box input[type="text"] {
+    width: 100%;
 }
 
 /* Indigenous people */
