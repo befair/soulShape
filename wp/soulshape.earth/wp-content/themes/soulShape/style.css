@@ -9,6 +9,7 @@
 
     .intro-text {
         font-size: 52px;
+        line-height: 50px;
     }
 
     #main-nav {
@@ -19,13 +20,16 @@
         float: none !important;
     }
 
-    .home .header, .header-content-wrap {
-        height: 100vh;
+    @media only screen and (min-width: 450px){
+        .home .header, .header-content-wrap {
+            height: 100vh;
+        }
+
+        .home .header-content-wrap {
+            padding-top: 40vh !important;
+        }
     }
 
-    .home .header-content-wrap {
-        padding-top: 40vh !important;
-    }
 
     .service-icon {
         height: 250px !important;
