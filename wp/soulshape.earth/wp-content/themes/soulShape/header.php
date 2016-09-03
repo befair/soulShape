@@ -59,8 +59,12 @@
 				<header id="home" class="header">
 					<div id="main-nav" class="navbar navbar-inverse bs-docs-nav" role="banner">
                         <div class="account-stuff">
-                            <a href="?page_id=90" style="margin-right:15px">LOGIN</a>
-                            <a href="?page_id=113">SIGN UP</a>
+                            <?php if(is_user_logged_in()) { ?>
+                                <a href="wp-login.php?action=logout&redirect_to=%2FsoulShape%2Fwp%2Fsoulshape.earth%2F&_wpnonce=e951c2728d">LOGOUT</a>
+                            <?php }else { ?>
+                                <a href="?page_id=90" style="margin-right:15px">LOGIN</a>
+                                <a href="?page_id=113">SIGN UP</a>
+                            <?php } ?>
                         </div>
 						<div class="container">
 							<div class="navbar-header responsive-logo">
