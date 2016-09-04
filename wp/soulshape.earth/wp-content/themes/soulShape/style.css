@@ -466,3 +466,10 @@ video {
     font-size: 40px;
     padding-top: 15px;
 }
+
+.woocommerce span.onsale {
+    width: 45px;
+    height: 45px;
+    border: 4px solid #e96656;
+    line-height: 38px;
+}
