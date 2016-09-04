@@ -22,6 +22,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 global $post, $product;
 
+//Product caption
+echo "<h2 class='product-caption'>$post->post_title</h2>";
+
 if ($post->post_author == '1') 
     echo apply_filters( 'woocommerce_sale_flash', '<span class="onsale">' . __( 'HQ', 'woocommerce' ) . '</span>', $post, $product ); 
 ?>

@@ -1,61 +1,61 @@
-    /*
-    Theme Name: soulShape 
-    Description: Derived from Rise Lite for soulShape.earth 
-    Author: Radeox/AzzeccaGarbugli 
-    Template: zerif-lite
-    Version: 1.0
-    License: GPLv3 
-    */
+/*
+Theme Name: soulShape 
+Description: Derived from Rise Lite for soulShape.earth 
+Author: Radeox/AzzeccaGarbugli 
+Template: zerif-lite
+Version: 1.0
+License: GPLv3 
+*/
 
-    .intro-text {
-        font-size: 52px;
-        line-height: 50px;
+.intro-text {
+    font-size: 52px;
+    line-height: 50px;
+}
+
+#main-nav {
+    position: absolute;
+}
+
+.navbar-right {
+    float: none !important;
+}
+
+@media only screen and (min-width: 450px){
+    .home .header, .header-content-wrap {
+        height: 100vh;
     }
 
-    #main-nav {
-        position: absolute;
+    .home .header-content-wrap {
+        padding-top: 40vh !important;
     }
-
-    .navbar-right {
-        float: none !important;
-    }
-
-    @media only screen and (min-width: 450px){
-        .home .header, .header-content-wrap {
-            height: 100vh;
-        }
-
-        .home .header-content-wrap {
-            padding-top: 40vh !important;
-        }
-    }
+}
 
 
-    .service-icon {
-        height: 250px !important;
-        width: 255px !important;
-    }
+.service-icon {
+    height: 250px !important;
+    width: 255px !important;
+}
 
-    .focus .container {
-        width: 100%;
-    }
+.focus .container {
+    width: 100%;
+}
 
-    .about-us .container {
-        width: 100%;
-        padding: 0px !important;
-    }
+.about-us .container {
+    width: 100%;
+    padding: 0px !important;
+}
 
 
-    .focus {
-        background-color: rgb(183, 31, 56);
-    }
+.focus {
+    background-color: rgb(183, 31, 56);
+}
 
-    .client-list div {
-        display: inline-block;
-        float: none !important;
-        margin-right: -4px;
-        vertical-align: top;
-        margin-bottom: 25px;
+.client-list div {
+    display: inline-block;
+    float: none !important;
+    margin-right: -4px;
+    vertical-align: top;
+    margin-bottom: 25px;
 }
 
 .clients-section-title {
@@ -472,4 +472,14 @@ video {
     height: 45px;
     border: 4px solid #e96656;
     line-height: 38px;
+}
+
+.product-caption {
+    text-decoration: underline;
+    position: absolute;
+    top: 85%;
+    left: 5%;
+    width: 100%;
+    color: white;
+    text-align: left;
 }
