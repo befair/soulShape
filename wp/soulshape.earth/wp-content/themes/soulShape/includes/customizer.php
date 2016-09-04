@@ -61,6 +61,15 @@ if( !function_exists( 'rise_lite_customizer' ) ) {
 			'priority'	=> 1,
 		)));
 
+		// Subtitle
+		$wp_customize->add_setting( 'rise_lite_bigtitle_subtitle', array('sanitize_callback' => 'esc_html','default' => __('','rise-lite')));
+		$wp_customize->add_control( 'rise_lite_bigtitle_subtitle', array(
+			'label'    => __( 'Subtitle', 'rise-lite' ),
+			'section'  => 'zerif_bigtitle_section',
+			'settings' => 'rise_lite_bigtitle_subtitle',
+			'priority'    => 2,
+		));
+
 		// Yellow Button Label
 		$wp_customize->add_setting( 'rise_lite_bigtitle_yellowbutton_label', array('sanitize_callback' => 'esc_html','default' => __('Features','rise-lite')));
 		$wp_customize->add_control( 'rise_lite_bigtitle_yellowbutton_label', array(

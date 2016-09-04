@@ -31,12 +31,17 @@ echo '<div class="header-content-wrap">';
 			echo '<h1 class="intro-text">'. esc_html( $zerif_bigtitle_title ) .'</h1>';
 		endif;
 
+		$rise_lite_bigtitle_subtitle = get_theme_mod('rise_lite_bigtitle_subtitle',__('','rise-lite'));
+        if(!empty($rise_lite_bigtitle_subtitle))
+            echo '<p class="intro-text subtitle">'.esc_html($rise_lite_bigtitle_subtitle).'</p>';
+
 		echo '<div class="big-title-separator"></div>';
 
 		$rise_lite_bigtitle_yellowbutton_label = get_theme_mod('rise_lite_bigtitle_yellowbutton_label',__('Features','rise-lite'));
 		$rise_lite_bigtitle_yellowbutton_url = get_theme_mod('rise_lite_bigtitle_yellowbutton_url', esc_url( home_url( '/' ) ).'#focus');
 		$rise_lite_bigtitle_redbutton_label = get_theme_mod('rise_lite_bigtitle_redbutton_label',__("What's inside",'rise-lite'));
 		$rise_lite_bigtitle_redbutton_url = get_theme_mod('rise_lite_bigtitle_redbutton_url',esc_url( home_url( '/' ) ).'#focus');
+
 		if( (!empty($rise_lite_bigtitle_yellowbutton_label) && !empty($rise_lite_bigtitle_yellowbutton_url)) || (!empty($rise_lite_bigtitle_redbutton_label) && !empty($rise_lite_bigtitle_redbutton_url))):
 			echo '<div class="buttons">';
 				if ( !empty($rise_lite_bigtitle_yellowbutton_label) && !empty($rise_lite_bigtitle_yellowbutton_url) ):

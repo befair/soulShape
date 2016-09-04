@@ -460,3 +460,9 @@ video {
 .home-market-dsc {
     padding: 5%;
 }
+
+.subtitle {
+    text-transform: none;
+    font-size: 40px;
+    padding-top: 15px;
+}
