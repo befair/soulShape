@@ -23,6 +23,16 @@ if ( $zerif_parallax_use == 1 && (!empty($zerif_parallax_img1) || !empty($zerif_
 
 	echo '</ul>';
 }
+    $soulshape_videoback = get_theme_mod('soulshape_videoback');
+    $soulshape_videoback_show = get_theme_mod('soulshape_videoback_show');
+
+    if($soulshape_videoback_show && !empty($soulshape_videoback)):
+?>
+    <video id="homevideo" autoplay loop mute>
+        <source src="<?php echo wp_get_attachment_url($soulshape_videoback); ?>" type="video/mp4">
+    </video>
+<?php
+    endif;
 
 echo '<div class="header-content-wrap">';
 	echo '<div class="container">';

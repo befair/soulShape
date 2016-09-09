@@ -21,9 +21,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 global $post, $product;
-
+$population = $product->get_attribute('population');
 //Product caption
-echo "<h2 class='product-caption'>$post->post_title</h2>";
+echo "<div class='product-caption'>";
+echo "<h2>$post->post_title</h2>";
+echo $population;
+echo "</div>";
 
 if ($post->post_author == '1') 
     echo apply_filters( 'woocommerce_sale_flash', '<span class="onsale">' . __( 'HQ', 'woocommerce' ) . '</span>', $post, $product ); 

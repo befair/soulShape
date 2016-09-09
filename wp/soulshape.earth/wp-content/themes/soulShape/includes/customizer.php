@@ -250,6 +250,38 @@ if( !function_exists( 'rise_lite_customizer' ) ) {
             'capability' => 'edit_theme_options',
             'title' => __( '4th section', 'zerif-lite' )
         ));
+
+        /* Custom videobackground on header */
+        $wp_customize->remove_section( 'zerif_videobackground_in_pro_section');
+
+        $wp_customize->add_section( 'soulshape_videoback_section' , array(
+            'title'       => __( 'Videobackground', 'zerif-lite' ),
+            'priority'    => 3,
+            'panel'       => 'panel_big_title'
+        ));
+
+        $wp_customize->add_setting( 'soulshape_videoback_show', array(
+            'sanitize_callback' => 'zerif_sanitize_checkbox'
+        ));
+
+        $wp_customize->add_control( 'soulshape_videoback_show', array(
+            'type'      => 'checkbox',
+            'label'     => __('Show videobackground?','zerif-lite'),
+            'section'   => 'soulshape_videoback_section',
+            'priority'  => 1
+        ));
+
+        $wp_customize->add_setting( 'soulshape_videoback', array(
+			'sanitize_callback' => 'esc_html'
+        ));
+
+        $wp_customize->add_control( new WP_Customize_Media_Control( $wp_customize, 'soulshape_videoback', array(
+            'label'     => __( 'Video', 'zerif-lite' ),
+            'section'   => 'soulshape_videoback_section',
+            'settings'  => 'soulshape_videoback',
+            'mime_type' => 'video',
+            'priority'  => 2
+        )));
 	}
 }
 ?>

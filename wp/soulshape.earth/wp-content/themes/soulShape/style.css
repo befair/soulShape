@@ -8,8 +8,14 @@ License: GPLv3
 */
 
 .intro-text {
-    font-size: 52px;
+    font-size: 40px;
     line-height: 50px;
+}
+
+.subtitle {
+    text-transform: none;
+    font-size: 30px;
+    padding-top: 10px;
 }
 
 #main-nav {
@@ -29,7 +35,6 @@ License: GPLv3
         padding-top: 40vh !important;
     }
 }
-
 
 .service-icon {
     height: 250px !important;
@@ -342,18 +347,16 @@ legend {
 }
 
 #homevideo {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: -99;
-    width: 100%;
-    height: 100%;
-}
-
-video {
-    width: 100vw;
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
     height: auto;
     transform: scaleY(1.33);
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 
 .woocommerce-page ul.products {
@@ -462,12 +465,6 @@ video {
     padding: 5%;
 }
 
-.subtitle {
-    text-transform: none;
-    font-size: 40px;
-    padding-top: 15px;
-}
-
 .woocommerce span.onsale {
     width: 45px;
     height: 45px;
@@ -476,11 +473,17 @@ video {
 }
 
 .product-caption {
-    text-decoration: underline;
     position: absolute;
-    top: 85%;
+    top: 77%;
     left: 5%;
     width: 100%;
     color: white;
     text-align: left;
+    line-height: 0px;
+}
+
+.product-caption h2 {
+    font-size: 20px;
+    font-style: inherit;
+    font-weight: inherit;
 }
