@@ -23,14 +23,6 @@ get_header(); ?>
 
 
                     <section class="focus" id="focus">
-                        <video width="400" controls>
-                          <source src="http://2.236.89.96/soulShape/wp/soulshape.earth/wp-content/uploads/2016/08/soulShape-Trailer.mp4" type="video/mp4">
-                          Your browser does not support HTML5 video.
-                        </video>
-                    </section>
-
-
-                    <section class="focus" id="focus">
                         <div>
                             <div class="section-header">
                                 <h2 class="dark-text">problem we are solving</h2>
