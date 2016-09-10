@@ -48,13 +48,14 @@ class templatesGmp extends moduleGmp {
 	}
 	public function loadCoreJs() {
 		static $loaded = false;
+
 		if(!$loaded) {
 			frameGmp::_()->addScript('jquery');
-
 			frameGmp::_()->addScript('commonGmp', GMP_JS_PATH. 'common.js', array('jquery'));
 			frameGmp::_()->addScript('coreGmp', GMP_JS_PATH. 'core.js', array('jquery'));
 
 			$ajaxurl = admin_url('admin-ajax.php');
+
 			if(frameGmp::_()->getModule('options')->get('ssl_on_ajax')) {
 				$ajaxurl = uriGmp::makeHttps($ajaxurl);
 			}
@@ -73,7 +74,9 @@ class templatesGmp extends moduleGmp {
 				$jsData['isPro'] = frameGmp::_()->getModule('supsystic_promo')->isPro();
 			}
 			$jsData = dispatcherGmp::applyFilters('jsInitVariables', $jsData);
+
 			frameGmp::_()->addJSVar('coreGmp', 'GMP_DATA', $jsData);
+
 			$loaded = true;
 		}
 	}

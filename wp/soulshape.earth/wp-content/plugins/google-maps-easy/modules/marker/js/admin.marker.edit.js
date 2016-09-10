@@ -124,7 +124,7 @@ jQuery(document).ready(function(){
 		}
 		jQuery(this).sendFormGmp({
 			btn: jQuery('#gmpSaveMarkerBtn')
-			,	onSuccess: function(res) {
+		,	onSuccess: function(res) {
 				if(!res.error) {
 					if(!onlySave) {
 						if(!res.data.update) {
@@ -500,12 +500,12 @@ function gmpInitIconsWnd() {
 		var currentForm = jQuery(this).parents('form');
 		custom_uploader.on('select', function(){
 			var attachment = custom_uploader.state().get('selection').first().toJSON()
-				,	respElem = jQuery('.gmpUplRes')
-				,	sendData={
+			,	respElem = jQuery('.gmpUplRes')
+			,	sendData = {
 					page: 'icons'
-					,	action: 'saveNewIcon'
-					,	reqType: 'ajax'
-					,	icon: {
+				,	action: 'saveNewIcon'
+				,	reqType: 'ajax'
+				,	icon: {
 						url: attachment.url
 					}
 				};

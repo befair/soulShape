@@ -2,8 +2,8 @@
 Contributors: supsystic.com
 Donate link: http://supsystic.com/plugins/google-maps-plugin
 Tags: bing maps, contact page map, custom google map, easy map, google map, google map plugin, google map shortcode, google map widget, google map WordPress, googlemaps, gps, gpx, kml, latitude, loaction by address, location, map, map direction, map directions, map markers, map plugin, map point, map shortcode, map styles, maps google, polygons, post map, simple google map, wp google map, wp map
-Tested up to: 4.5.3
-Stable tag: 1.6.1
+Tested up to: 4.6
+Stable tag: 1.6.2
 
 The easiest way to create Google Map with markers, locations and clusterization. Any data on the map: text, images, videos. Custom google map markers
 
@@ -188,6 +188,17 @@ Copy and paste the shortcode into your post or page and Google Maps Easy will au
 6. Google Map Stylizations. Make your map unique with our Map Themes!
 
 == Changelog ==
+
+= Google Map Plugin v1.6.2 / 07.09.2016 =
+ * Add ability to search markers by its title, description and category through Custom Map Controls search field
+ * Add the functionality of add markers on the map on frontend
+ * Add the Map Center and the Map Zoom options to Map Widget
+ * Add ability to choose the cluster icon for each markers category
+ * Add Claster Area Size option
+ * Add Adapt map to screen height option
+ * Add possibility to close license expire message in admin area
+ * Move map styles in the head tag
+ * Fix for map / markers export files
 
 = Google Map Plugin v1.6.1 / 02.08.2016 =
  * Update google map API function

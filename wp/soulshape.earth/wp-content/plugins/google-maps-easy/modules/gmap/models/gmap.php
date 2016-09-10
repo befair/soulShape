@@ -47,23 +47,21 @@ class gmapModelGmp extends modelGmp {
 	}
 	public function getParamsList() {
 		$mapOptKeys = dispatcherGmp::applyFilters('mapParamsKeys', 
-				array('enable_zoom', 'enable_mouse_zoom' /*we used "mouse_wheel_zoom" insted of this - as this was already nulled*/, 'zoom', 
-					'type' /*used "map_type" insted - same reason as prev. one*/, 'language', 'map_display_mode', 'map_center', 
-					/*'infowindow_height', 'infowindow_width',*/ 'width_units', 'infowindow_on_mouseover',
-					/*'infownd_title_color', 'infownd_title_size', */
-					// New parameters started here
+				array('width_units', 'adapt_map_to_screen_height',
+					'type' /*used "map_type" insted - as this was already nulled*/, 'map_type', 'map_display_mode', 'map_center', 'language',
+					'enable_zoom', 'enable_mouse_zoom' /*we used "mouse_wheel_zoom" insted of this - same reason as prev. one*/, 'zoom', 'zoom_min', 'zoom_max',
 					'type_control', 'zoom_control', 'street_view_control', 'pan_control', 'overview_control', 'draggable',
-					'dbl_click_zoom', 'mouse_wheel_zoom', 'map_type', 'map_stylization', 'marker_clasterer', 'marker_title_color',
-					'marker_title_size', 'marker_title_size_units', 'marker_infownd_width', 'marker_desc_size', 'marker_desc_size_units',
-					'marker_infownd_width_units', 'marker_infownd_height', 'marker_infownd_height_units', 'marker_clasterer_icon',
-					'marker_clasterer_icon_width', 'marker_clasterer_icon_height', 'marker_infownd_bg_color','zoom_min', 'zoom_max',
-					'hide_marker_tooltip',
+					'dbl_click_zoom', 'mouse_wheel_zoom', 'map_stylization',
+					'marker_title_color', 'marker_title_size', 'marker_title_size_units',
+					'marker_desc_size', 'marker_desc_size_units', 'hide_marker_tooltip',
+					'marker_infownd_width', 'marker_infownd_width_units', 'marker_infownd_height', 'marker_infownd_height_units', 'marker_infownd_bg_color',
+					'marker_clasterer', 'marker_clasterer_icon', 'marker_clasterer_icon_width', 'marker_clasterer_icon_height', 'marker_clasterer_grid_size',
 					// Maybe PRO params - but let them be here - to avoid dublications
 					'markers_list_type', 'markers_list_color',));
 		return $mapOptKeys;
 	}
 	public function getHtmlOptionsList() {
-		return array('width', 'height'/*, 'align', 'margin', 'border_color', 'border_width'*/);
+		return array('width', 'height'/*, 'align', 'margin', 'border_width', 'border_color'*/);
 	}
 	public function prepareParams($params){
 		$htmlKeys = $this->getHtmlOptionsList();
@@ -124,7 +122,7 @@ class gmapModelGmp extends modelGmp {
 			frameGmp::_()->getModule('marker')->getModel()->removeMarkersFromMap($mapId);
 			return frameGmp::_()->getTable("maps")->delete($mapId);
 		} else
-			$this->pushError (__('Invalid ID', GMP_LANG_CODE));
+			$this->pushError (__('Invalid Map ID', GMP_LANG_CODE));
 		return false;
 	}
 	public function getMapByTitle($title) {
@@ -156,7 +154,8 @@ class gmapModelGmp extends modelGmp {
 			$map['params']= utilsGmp::unserialize($map['params']);
 			$map = $this->_afterSimpleGet( $map );
 			return $map;
-		}
+		} else
+			$this->pushError (__('Invalid Map ID', GMP_LANG_CODE));
 		return false;
 	}
 	public function existsId($id){

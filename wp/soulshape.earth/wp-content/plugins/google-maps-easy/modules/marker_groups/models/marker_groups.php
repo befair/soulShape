@@ -64,7 +64,7 @@ class marker_groupsModelGmp extends modelGmp {
 	protected function _dataSave($data, $update = false) {
 		$data['title'] = trim($data['title']);
 
-		$mgrParamsKeys = array('bg_color');
+		$mgrParamsKeys = array('bg_color', 'claster_icon', 'claster_icon_width', 'claster_icon_height');
 		$mgrParams = array();
 		foreach($mgrParamsKeys as $k){
 			$mgrParams[$k] = isset($data[$k]) ? $data[$k] : null;

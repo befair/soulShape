@@ -9,12 +9,16 @@ jQuery(document).ready(function(){
 	}
 });
 function gmpInitMapOnPage(mapData) {
-	var newMap = new gmpGoogleMap('#'+ mapData.view_html_id, mapData.params)
+	var additionalData = {
+		markerGroups: typeof(mapData.marker_groups) != 'undefined' ? mapData.marker_groups : []
+	}
+	,	newMap = new gmpGoogleMap('#'+ mapData.view_html_id, mapData.params, additionalData)
 	,	mapMarkersIds = []
 	,	markerIdToShow = gmpIsMarkerToShow();
 
 	if(mapData.markers && mapData.markers.length) {
 		mapData.markers = _gmpPrepareMarkersList( mapData.markers );
+
 		for(var i in mapData.markers) {
 			mapMarkersIds.push(mapData.markers[i].id);
 		}

@@ -6,6 +6,10 @@
 #gmpMgrTab {
 	min-height: 450px;
 }
+#gmpMgrTab .gmpSubOpt {
+	vertical-align: middle;
+	margin-right: 10px;
+}
 #gmpMgrSaveBtn {
 	float: right;
 	margin-right: 30px;

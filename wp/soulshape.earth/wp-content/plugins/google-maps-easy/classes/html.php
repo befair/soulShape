@@ -506,9 +506,22 @@ class htmlGmp {
         $params['attrs'] = 'id="toeSliderInput_'. $id. '"';
         $res .= self::hidden($name, $params);
         $res .= '<script type="text/javascript">
-            jQuery(function(){ 
-                jQuery("#'. $id. '").slider({'. $paramsStr. '}); 
-            }); 
+            jQuery(function() {
+                var iter = 0;
+
+                function toeAddSlider() {
+                	if(typeof(jQuery("#' . $id . '").slider) == "function" && typeof(toeSliderMove) == "function") {
+                		jQuery("#' . $id . '").slider({' . $paramsStr . '});
+						iter = 0;
+                	} else {
+                		iter++;
+                		if(iter < 15) {
+                			setTimeout(toeAddSlider, 500);
+                		}
+                	}
+				}
+				toeAddSlider();
+			});
             </script>';
         return $res;
     }

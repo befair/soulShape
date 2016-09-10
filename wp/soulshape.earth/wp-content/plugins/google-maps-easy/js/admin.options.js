@@ -325,18 +325,6 @@ function gmpCheckUpdate(checkbox) {
 function gmpCheckUpdateArea(selector) {
 	jQuery(selector).find('input[type=checkbox]').iCheck('update');
 }
-function gmpGetTxtEditorVal(id) {
-	if(typeof(tinyMCE) !== 'undefined' && tinyMCE.get( id ) && !jQuery('#'+ id).is(':visible'))
-		return tinyMCE.get( id ).getContent();
-	else
-		return jQuery('#'+ id).val();
-}
-function gmpSetTxtEditorVal(id, content) {
-	if(typeof(tinyMCE) !== 'undefined' && tinyMCE && tinyMCE.get( id ) && !jQuery('#'+ id).is(':visible'))
-		tinyMCE.get( id ).setContent(content);
-	else
-		jQuery('#'+ id).val( content );
-}
 /**
  * Add data to jqGrid object post params search
  * @param {object} param Search params to set

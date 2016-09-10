@@ -2,9 +2,12 @@
 class  gmapGmp extends moduleGmp {
 	private $_stylizations = array();
 	private $_markersLists = array();
+	private $_mapsInPosts = array();
 	
 	public function init() {
 		dispatcherGmp::addFilter('mainAdminTabs', array($this, 'addAdminTab'));
+		add_action('wp_head', array($this, 'addMapStyles'));
+		add_action('template_redirect', array($this, 'getMapsInPosts'));
         add_action('wp_footer', array($this, 'addMapDataToJs'), 5);
 		add_shortcode(GMP_SHORTCODE, array($this, 'drawMapFromShortcode'));
 		// Add to admin bar new item
@@ -34,13 +37,45 @@ class  gmapGmp extends moduleGmp {
 	public function getTabContent() {
 		return $this->getView()->getTabContent();
 	}
+	public function getMapsInPosts() {
+		if(empty($this->_mapsInPosts)) {
+			global $wp_query;
+
+			$havePostsListing = $wp_query && is_object($wp_query) && isset($wp_query->posts) && is_array($wp_query->posts) && !empty($wp_query->posts);
+
+			if($havePostsListing) {
+				foreach($wp_query->posts as $post) {
+					if(is_object($post) && isset($post->post_content)) {
+						if((preg_match_all('/\[\s*'. GMP_SHORTCODE .'\s+.*id\s*\=\s*"(?P<MAP_ID>\d+)".*\]/iUs', $post->post_content, $matches))) {
+							if(!is_array($matches['MAP_ID'])) {
+								$matches['MAP_ID'] = array( $matches['MAP_ID'] );
+							}
+							$matches['MAP_ID'] = array_map('intval', $matches['MAP_ID']);
+							$this->_mapsInPosts = array_merge($this->_mapsInPosts, $matches['MAP_ID']);
+						}
+					}
+				}
+			}
+		}
+		return $this->_mapsInPosts;
+	}
+	public function addMapStyles() {
+		if(!empty($this->_mapsInPosts)) {
+			$mapsOnPage = $this->getView()->getMapsObj();
+
+			foreach($mapsOnPage as $map) {
+				$this->getView()->addMapStyles($map['view_id']);
+			}
+		}
+	}
     public function drawMapFromShortcode($params = null) {
-		frameGmp::_()->addScript('commonGmp', GMP_JS_PATH. 'common.js', array('jquery'));
-		frameGmp::_()->addScript('coreGmp', GMP_JS_PATH. 'core.js', array('jquery'));
-        if(!isset($params['id'])) {
-            return __('Empty or Invalid Map ID', GMP_LANG_CODE);
+		frameGmp::_()->getModule('templates')->loadCoreJs();
+
+        if(!isset($params['id']) || empty($params['id'])) {
+            return __('Empty or Invalid Map ID', GMP_LANG_CODE) . '. ' . __('Please, check your Map Shortcode.', GMP_LANG_CODE);
         }
-        return $this->getController()->getView()->drawMap($params);
+
+        return $this->getView()->drawMap($params);
     }
     public function addMapDataToJs(){
         $this->getView()->addMapDataToJs();

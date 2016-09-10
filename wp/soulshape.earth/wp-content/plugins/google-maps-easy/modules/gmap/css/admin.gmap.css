@@ -171,6 +171,12 @@
 #gmpMapPropertiesTabs .nav-tab-wrapper {
 	border-bottom-color: #000;
 }
+#gmpMapPropertiesTabs #gmpMarkerClastererSubOpts {
+	margin-top: 10px;
+}
+#gmpMapPropertiesTabs #gmpMarkerClastererSubOpts .gmpClastererSubOpts {
+	margin-bottom: 5px;
+}
 /*Map markers list*/
 .gmpMmlElement {
 	text-decoration: none;

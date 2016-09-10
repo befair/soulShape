@@ -3,6 +3,8 @@ class gmapViewGmp extends viewGmp {
 	//private $_gmapApiUrl = "https://maps.googleapis.com/maps/api/js?&sensor=false&=";
 	private $_gmapApiUrl = '';
 	private static $_mapsData;
+	private $_mapsObj = array();
+	private $_mapStyles = array();
 	private $_displayColumns = array();
 	// Used to compare rand IDs and original IDs on preview
 	
@@ -28,13 +30,49 @@ class gmapViewGmp extends viewGmp {
 		if(!empty($params))
 			self::$_mapsData[] = $params;
 	}
-	public function drawMap($params){
-		$mapObj = frameGmp::_()->getModule('gmap')->getModel()->getMapById($params['id']);
-		if(empty($mapObj))
-			return;
-		if(isset($params['map_center']) 
-			&& is_string($params['map_center'])
-		) {
+	public function getMapsObj() {
+		if(empty($this->_mapsObj)) {
+			$mapsInPosts = $this->getModule()->getMapsInPosts();
+
+			foreach($mapsInPosts as $mapId) {
+				$mapObj = frameGmp::_()->getModule('gmap')->getModel()->getMapById($mapId);
+
+				if(empty($mapObj)) continue;
+
+				$mapObj['isDisplayed'] = false;
+				$this->_mapsObj[$mapObj['view_id']] = $mapObj;
+			}
+		}
+		return $this->_mapsObj;
+	}
+	public function addMapStyles($mapViewId) {
+		$mapObj = is_array($mapViewId) ? $mapViewId : $this->_mapsObj[$mapViewId];
+		$this->assign('currentMap', $mapObj);
+		array_push($this->_mapStyles, $mapObj['view_id']);
+
+		parent::display('gmapMapStyles');
+	}
+	public function drawMap($params) {
+		$mapObj = array();
+
+		foreach($this->_mapsObj as $view_id => $map) {
+			if($map['id'] == $params['id'] && !$map['isDisplayed']) {
+				$this->_mapsObj[$view_id]['isDisplayed'] = true;
+				$mapObj = $this->_mapsObj[$view_id];
+				break;
+			}
+		}
+
+		$mapObj = $mapObj ? $mapObj : frameGmp::_()->getModule('gmap')->getModel()->getMapById($params['id']);
+
+		if(empty($mapObj)) return _e('Map not found', GMP_LANG_CODE);
+
+		$shortCodeHtmlParams = array('width', 'height', 'align');
+		$paramsCanNotBeEmpty = array('width', 'height');
+		$shortCodeMapParams = $this->getModel()->getParamsList();
+		$mapMarkersGroupsList = array();
+
+		if(isset($params['map_center']) && is_string($params['map_center'])) {
 			if(strpos($params['map_center'], ';')) {
 				$centerXY = array_map('trim', explode(';', $params['map_center']));
 				$params['map_center'] = array(
@@ -44,6 +82,7 @@ class gmapViewGmp extends viewGmp {
 			} elseif(is_numeric($params['map_center'])) {	// Map center - is coords of one of it's marker
 				$params['map_center'] = (int) trim($params['map_center']);
 				$found = false;
+
 				if(!empty($mapObj['markers'])) {
 					foreach($mapObj['markers'] as $marker) {
 						if($marker['id'] == $params['map_center']) {
@@ -65,15 +104,21 @@ class gmapViewGmp extends viewGmp {
 				unset($params['map_center']);
 			}
 		}
-		$shortCodeHtmlParams = array('width', 'height', 'align');
-		$paramsCanNotBeEmpty = array('width', 'height');
+		if(!empty($mapObj['markers'])) {
+			foreach($mapObj['markers'] as $marker) {
+				if($marker['marker_group_id']) {
+					if(in_array($marker['marker_group_id'], $mapMarkersGroupsList)) continue;
+
+					array_push($mapMarkersGroupsList, $marker['marker_group_id']);
+				}
+			}
+		}
 		foreach($shortCodeHtmlParams as $code) {
 			if(isset($params[$code])){
 				if(in_array($code, $paramsCanNotBeEmpty) && empty($params[$code])) continue;
 				$mapObj['html_options'][$code] = $params[$code];
 			}
 		}
-		$shortCodeMapParams = $this->getModel()->getParamsList();
 		foreach($shortCodeMapParams as $code){
 			if(isset($params[$code])) {
 				if(in_array($code, $paramsCanNotBeEmpty) && empty($params[$code])) continue;
@@ -97,23 +142,28 @@ class gmapViewGmp extends viewGmp {
 		if(empty($mapObj['params']['map_display_mode'])){
 			$mapObj['params']['map_display_mode'] = 'map';
 		}
-		$indoWindowSize = frameGmp::_()->getModule('options')->getModel('options')->get('infowindow_size');
-		$this->assign('indoWindowSize', $indoWindowSize);
-		
-		$markersDisplayType = '';
-		if(isset($params['markers_list_type'])) {
-			$markersDisplayType = $params['markers_list_type'];
-		} else if(isset($mapObj['params']['markers_list_type']) && !empty($mapObj['params']['markers_list_type'])) {
-			$markersDisplayType = $mapObj['params']['markers_list_type'];
+		if($mapMarkersGroupsList) {
+			$mapObj['marker_groups'] = frameGmp::_()->getModule('marker_groups')->getModel()->getMarkersGroupsByIds($mapMarkersGroupsList);
 		}
-		$mapObj['params']['markers_list_type'] = $markersDisplayType;
+
+		$mapObj['params']['markers_list_type'] = isset($params['markers_list_type'])
+			? $params['markers_list_type']
+			: (isset($mapObj['params']['markers_list_type']) && !empty($mapObj['params']['markers_list_type']))
+				? $mapObj['params']['markers_list_type']
+				: '';
 		$mapObj = dispatcherGmp::applyFilters('mapDataRender', $mapObj);
+
+		$this->connectMapsAssets( $mapObj['params'] );
 		$this->addMapData(dispatcherGmp::applyFilters('mapDataToJs', $mapObj));
 
-		$this->assign('markersDisplayType', $markersDisplayType);
-		$this->connectMapsAssets( $mapObj['params'] );
 		frameGmp::_()->addScript('frontend.gmap', $this->getModule()->getModPath(). 'js/frontend.gmap.js', array('jquery'), false, true);
+
+		$this->assign('markersDisplayType', $mapObj['params']['markers_list_type']);
 		$this->assign('currentMap', $mapObj);
+
+		if(!in_array($mapObj['view_id'], $this->_mapStyles)) {
+			$this->addMapStyles($mapObj);
+		}
 		return parent::getInlineContent('gmapDrawMap');
 	}
 	public function addMapDataToJs(){
@@ -151,10 +201,15 @@ class gmapViewGmp extends viewGmp {
 		return parent::getContent('gmapAdmin');
 	}
 	public function getEditMap($id = 0) {
+		$editMap = $id ? true : false;
 		$isPro = frameGmp::_()->getModule('supsystic_promo')->isPro();
 		$gMapApiParams = array('language' => '');
-		$allMarkerGroupsList = frameGmp::_()->getModule('marker_groups')->getModel()->getAllMarkerGroups();
 		$allStylizationsList = $this->getModule()->getStylizationsList();
+		$allMarkerGroupsList = frameGmp::_()->getModule('marker_groups')->getModel()->getAllMarkerGroups();
+		$markerLists = $this->getModule()->getMarkerLists();
+		$positionsList = $this->getModule()->getControlsPositions();
+		$stylizationsForSelect = array('none' => __('None', GMP_LANG_CODE),);
+		$markerGroupsForSelect = array('0' => __('None', GMP_LANG_CODE),);
 
 		frameGmp::_()->getModule('templates')->loadJqGrid();
 		frameGmp::_()->addScript('jquery-ui-sortable');
@@ -179,51 +234,67 @@ class gmapViewGmp extends viewGmp {
 			frameGmp::_()->addJSVar('admin.gmap.edit', 'gmpShapesTblDataUrl', $gmpShapesTblDataUrl);
 			frameGmp::_()->addJSVar('admin.shape.edit', 'gmpShapesTblDataUrl', $gmpShapesTblDataUrl);
 		}
-
-		$markerGroupsForSelect = array(
-			'0' => __('None', GMP_LANG_CODE),
-		);
 		foreach($allMarkerGroupsList as $key => $value) {
 			$markerGroupsForSelect[ $value['id'] ] = $value['title'];
 		}
-		$stylizationsForSelect = array(
-			'none' => __('None', GMP_LANG_CODE),
-		);
 		foreach($allStylizationsList as $styleName => $json) {
 			$stylizationsForSelect[ $styleName ] = $styleName;	// JSON data will be attached on js side
 		}
-
-		$editMap = $id ? true : false;
 		if($editMap) {
 			$map = $this->getModel()->getMapById( $id );
-			$this->assign('map', $map);
 			$gMapApiParams = $map['params'];
+			$mapMarkersGroupsList = array();
+			$mapMarkersGroups = array();
+
+			if($map['markers'] && !empty($map['markers'])) {
+				foreach($map['markers'] as $marker) {
+					if($marker['marker_group_id']) {
+						if(in_array($marker['marker_group_id'], $mapMarkersGroupsList)) continue;
+
+						array_push($mapMarkersGroupsList, $marker['marker_group_id']);
+					}
+				}
+			}
+			if($mapMarkersGroupsList) {
+				foreach($allMarkerGroupsList as $group) {
+					if(in_array($group['id'], $mapMarkersGroupsList)) array_push($mapMarkersGroups, $group);
+				}
+				$map['marker_groups'] = $mapMarkersGroups;
+			}
+
+			$this->assign('map', $map);
+
 			frameGmp::_()->addJSVar('admin.gmap.edit', 'gmpMainMap', $map);
 		}
-		$markerLists = $this->getModule()->getMarkerLists();
-		$positionsList = $this->getModule()->getControlsPositions();
+
 		$this->connectMapsAssets($gMapApiParams, true);
+
 		$this->assign('editMap', $editMap);
+		$this->assign('isPro', $isPro);
 		$this->assign('icons', frameGmp::_()->getModule('icons')->getModel()->getIcons(array('fields' => 'id, path, title')));
 		$this->assign('stylizationsForSelect', $stylizationsForSelect);
 		$this->assign('positionsList', $positionsList);
-		$this->assign('isPro', $isPro);
 		$this->assign('mainLink', frameGmp::_()->getModule('supsystic_promo')->getMainLink());
 		$this->assign('markerLists', $markerLists);
 		$this->assign('markerGroupsForSelect', $markerGroupsForSelect);
 		$this->assign('viewId', $editMap ? $map['view_id'] : 'preview_id_'. mt_rand(1, 9999));
 		$this->assign('promoModPath', frameGmp::_()->getModule('supsystic_promo')->getModPath());
+
 		return parent::getContent('gmapEditMap');
 	}
 	public function connectMapsAssets($params, $forAdminArea = false) {
 		$params['language'] = isset($params['language']) && !empty($params['language']) ? $params['language'] : utilsGmp::getLangCode2Letter();
+
 		frameGmp::_()->addScript('google_maps_api', $this->getApiUrl(). '&language='. $params['language']);
 		frameGmp::_()->addScript('core.gmap', $this->getModule()->getModPath(). 'js/core.gmap.js');
 		frameGmp::_()->addScript('core.marker', frameGmp::_()->getModule('marker')->getModPath(). 'js/core.marker.js');
-		frameGmp::_()->addStyle('core.gmap', $this->getModule()->getModPath(). 'css/core.gmap.css');
 		if((isset($params['marker_clasterer']) && $params['marker_clasterer'] != 'none') || $forAdminArea) {
-			frameGmp::_()->addScript('core.markerclusterer', $this->getModule()->getModPath(). 'js/core.markerclusterer.min.js');
+			//frameGmp::_()->addScript('core.markerclusterer', $this->getModule()->getModPath(). 'js/core.markerclusterer.min.js');
+			frameGmp::_()->addScript('core.markerclusterer', $this->getModule()->getModPath(). 'js/core.markerclusterer.js', array(), '1.0');
 		}
+
+		frameGmp::_()->addStyle('core.gmap', $this->getModule()->getModPath(). 'css/core.gmap.css');
+
 		dispatcherGmp::doAction('afterConnectMapAssets', $params, $forAdminArea);
 	}
 }

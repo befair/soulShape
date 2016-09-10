@@ -37,7 +37,43 @@
 							</th>
 							<td>
 								<?php echo htmlGmp::colorpicker('marker_group[bg_color]', array(
-									'value' => $this->editMarkerGroup ? $this->marker_group['params']['bg_color'] : '#E4E4E4'))?>
+									'value' => $this->editMarkerGroup && $this->marker_group['params']['bg_color'] ? $this->marker_group['params']['bg_color'] : '#E4E4E4'))?>
+							</td>
+						</tr>
+						<tr>
+							<th scope="row">
+								<label for="marker_group_claster_icon">
+									<?php _e('Claster Icon', GMP_LANG_CODE)?>:
+								</label>
+							</th>
+							<td>
+								<?php
+								$curMarkerGroupClusterIcon = uriGmp::_(
+									$this->editMarkerGroup
+									&& isset($this->marker_group['params']['claster_icon'])
+									&& $this->marker_group['params']['claster_icon']
+										? $this->marker_group['params']['claster_icon']
+										: GMP_MODULES_PATH . '/gmap/img/m1.png');
+								$curMarkerGroupClusterIconWidth =
+									$this->editMarkerGroup
+									&& isset($this->marker_group['params']['clasterer_icon_width'])
+									&& $this->marker_group['params']['clasterer_icon_width']
+										? $this->marker_group['params']['clasterer_icon_width']
+										: 53;
+								$curMarkerGroupClusterIconHeight =
+									$this->editMarkerGroup
+									&& isset($this->marker_group['params']['clasterer_icon_height'])
+									&& $this->marker_group['params']['marker_clasterer_icon_height']
+										? $this->marker_group['params']['marker_clasterer_icon_height']
+										: 52;
+								?>
+								<img id="gmpMarkerGroupClastererIconPrevImg" class="gmpSubOpt" src="<?php echo $curMarkerGroupClusterIcon?>" style="max-width: 53px; height: auto;" />
+								<a id="gmpUploadMarkerGroupClastererIconBtn" class="button gmpSubOpt" href="#" ><?php _e('Upload Icon', GMP_LANG_CODE)?></a>
+								<a id="gmpDefaultMarkerGroupClastererIconBtn" class="button gmpSubOpt" href="#" ><?php _e('Default Icon', GMP_LANG_CODE)?></a>
+								<div class="gmpMarkerGroupClastererUplRes"></div>
+								<?php echo htmlGmp::hidden('marker_group[claster_icon]', array('value' => $curMarkerGroupClusterIcon, ))?>
+								<?php echo htmlGmp::hidden('marker_group[claster_icon_width]', array('value' => $curMarkerGroupClusterIconWidth, ))?>
+								<?php echo htmlGmp::hidden('marker_group[claster_icon_height]', array('value' => $curMarkerGroupClusterIconHeight, ))?>
 							</td>
 						</tr>
 					</table>

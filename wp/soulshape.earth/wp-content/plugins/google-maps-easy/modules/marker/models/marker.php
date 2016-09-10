@@ -46,7 +46,7 @@ class markerModelGmp extends modelGmp {
 				$this->pushError(frameGmp::_()->getTable('marker')->getErrors());
 			}
 		} else {
-			$this->pushError(__('Please enter marker name'), 'marker_opts[title]', GMP_LANG_CODE);
+			$this->pushError(__('Please enter marker name', GMP_LANG_CODE), 'marker_opts[title]');
 		}
 		return false;
 	}
@@ -90,7 +90,6 @@ class markerModelGmp extends modelGmp {
 			}
 			if($widthMapData && !empty($marker['map_id']))
 				$marker['map'] = frameGmp::_()->getModule('gmap')->getModel()->getMapById($marker['map_id'], false);
-			$marker['actions'] = frameGmp::_()->getModule('marker')->getView()->getListOperations($marker['id']);
 		}
 		return $marker;
 	}

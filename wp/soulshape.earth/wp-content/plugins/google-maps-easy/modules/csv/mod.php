@@ -56,7 +56,7 @@ class  csvGmp extends moduleGmp {
 				// params
 				'enable_zoom' => 'Enable Zoom',
 				'enable_mouse_zoom' => 'Enable Mouse Zoom', 
-				'infowindow_on_mouseover' => 'Infowindow on mouse over',
+				'description_mouse_hover' => 'Infowindow on mouse over',
 				'zoom' => 'Zoom', 
 				'type' => 'Type',
 				'language' => 'Language',

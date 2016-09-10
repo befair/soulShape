@@ -48,6 +48,17 @@ class csvControllerGmp extends controllerGmp {
 			_e('You have no maps for now.', GMP_LANG_CODE);
 			exit();
 		}
+
+		// Remove unneeded values
+		foreach($maps as $key => $val) {
+			unset($maps[$key]['original_id']);
+			unset($maps[$key]['view_id']);
+			unset($maps[$key]['view_html_id']);
+			unset($maps[$key]['params']['view_id']);
+			unset($maps[$key]['params']['view_html_id']);
+			unset($maps[$key]['params']['id']);
+		}
+
 		$keys = $this->_getKeys($maps[0]);
 		$c = $r = 0;
 		$this->_connectCsvLib();

@@ -13,6 +13,12 @@ class userGmp extends moduleGmp {
 		}
         return current_user_can( frameGmp::_()->getModule('adminmenu')->getMainCap() );
     }
+	public function isUserLoggedIn() {
+		if(!function_exists('wp_get_current_user') || !function_exists('is_user_logged_in')) {
+			frameGmp::_()->loadPlugins();
+		}
+		return is_user_logged_in();
+	}
 	public function getCurrentUserPosition() {
 		if($this->isAdmin())
 			return GMP_ADMIN;

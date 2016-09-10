@@ -89,19 +89,29 @@
 									<label for="map_opts_height">
 										<?php _e('Map Height', GMP_LANG_CODE)?>:
 									</label>
-									<i style="float: right;" class="fa fa-question supsystic-tooltip" title="<?php _e('Your map height', GMP_LANG_CODE)?>"></i>
+									<i style="float: right;" class="fa fa-question supsystic-tooltip" title="<?php _e('Your map height. If Adapt map to screen height option is checked - map height will be recalculated on frontend and will be equals to: your device screen height - page header height. Recalculation will be done for maps in page content and widgets except of maps which displaying in Google Maps Easy widget popup (Display as image mode).', GMP_LANG_CODE)?>"></i>
 								</th>
 								<td>
-									<div class="sup-col sup-w-25">
-										<?php echo htmlGmp::text('map_opts[height]', array(
-											'value' => $this->editMap ? $this->map['html_options']['height'] : '250',
-											'attrs' => 'style="width: 100%;" id="map_opts_height"'))?>
+									<div class="gmpMainHeightOpts" style="width: 50%; float: left;">
+										<div class="sup-col sup-w-50">
+											<?php echo htmlGmp::text('map_opts[height]', array(
+												'value' => $this->editMap ? $this->map['html_options']['height'] : '250',
+												'attrs' => 'style="width: 100%;" id="map_opts_height"'))?>
+										</div>
+										<div class="sup-col sup-w-50">
+											<label class="supsystic-tooltip" title="<?php _e('Pixels', GMP_LANG_CODE)?>" style="margin-right: 15px; position: relative; top: 7px;"><?php echo htmlGmp::radiobutton('map_opts_height_units_is_constant', array(
+												'value' => 'px',
+												'checked' => true,
+											))?>&nbsp;<?php _e('Px', GMP_LANG_CODE)?></label>
+										</div>
 									</div>
-									<div class="sup-col sup-w-75">
-										<label class="supsystic-tooltip" title="<?php _e('Pixels', GMP_LANG_CODE)?>" style="margin-right: 15px; position: relative; top: 7px;"><?php echo htmlGmp::radiobutton('map_opts_height_units_is_constant', array(
-											'value' => 'px',
-											'checked' => true,
-										))?>&nbsp;<?php _e('Px', GMP_LANG_CODE)?></label>
+									<div class="gmpAdditionalHeightOpts" style="width: 50%; float: left; padding: 8px 0;">
+										<?php echo htmlGmp::checkboxHiddenVal('map_opts[adapt_map_to_screen_height]', array(
+												'value' => $this->editMap && isset($this->map['params']['adapt_map_to_screen_height']) ? $this->map['params']['adapt_map_to_screen_height'] : false,
+										))?>
+										<span style="vertical-align: middle;">
+											<?php _e('Adapt map to screen height', GMP_LANG_CODE)?>
+										</span>
 									</div>
 								</td>
 							</tr>
@@ -356,48 +366,61 @@
 										<?php echo htmlGmp::selectbox('map_opts[marker_clasterer]', array(
 											'options' => array('none' => __('None', GMP_LANG_CODE), 'MarkerClusterer' => __('Base Clasterization', GMP_LANG_CODE)),
 											'value' => $this->editMap && isset($this->map['params']['marker_clasterer']) ? $this->map['params']['marker_clasterer'] : 'none',
-											'attrs' => 'style="width: 100%;" id="map_opts_marker_clasterer"'))?>
-										<div id="gmpMarkerClastererIcon" style="display: none; margin-top: 5px;">
-											<label for="map_opts_marker_clasterer_icon">
-												<?php _e('Claster Icon', GMP_LANG_CODE)?>
-											</label>
-											<div style="float: right;">
-												<a id="gmpUploadClastererIconBtn" href="#" class="button" style="float: right; margin-bottom: 5px;"><?php _e('Upload Icon', GMP_LANG_CODE)?></a><br />
-												<a id="gmpDefaultClastererIconBtn" href="#" class="button" style="float: right; margin-bottom: 5px;"><?php _e('Default', GMP_LANG_CODE)?></a>
-												<div class="gmpClastererUplRes"></div>
+											'attrs' => 'style="width: 100%;" id="map_opts_marker_clasterer"'));
+
+										// Prevent to use old default claster icon cdn icon because it is missing
+										$oldDefClasterIcon = 'https://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/images/m1.png';
+										$curClusterIcon = uriGmp::_(
+											$this->editMap
+											&& isset($this->map['params']['marker_clasterer_icon'])
+											&& $this->map['params']['marker_clasterer_icon']
+											&& $this->map['params']['marker_clasterer_icon'] != $oldDefClasterIcon
+												? $this->map['params']['marker_clasterer_icon']
+												: GMP_MODULES_PATH . '/gmap/img/m1.png');
+										$curClusterIconWidth =
+											$this->editMap
+											&& isset($this->map['params']['marker_clasterer_icon_width'])
+											&& $this->map['params']['marker_clasterer_icon_width']
+												? $this->map['params']['marker_clasterer_icon_width']
+												: 53;
+										$curClusterIconHeight =
+											$this->editMap
+											&& isset($this->map['params']['marker_clasterer_icon_height'])
+											&& $this->map['params']['marker_clasterer_icon_height']
+												? $this->map['params']['marker_clasterer_icon_height']
+												: 52;
+										?>
+										<div id="gmpMarkerClastererSubOpts" style="display: none;">
+											<div class="gmpClastererSubOpts">
+												<div class="sup-col" style="max-width: 50%; min-width: 20%; float: right; padding: 0; text-align: center;">
+													<a id="gmpUploadClastererIconBtn" href="#" class="button" style="width: 100%; margin-bottom: 5px;"><?php _e('Upload Icon', GMP_LANG_CODE)?></a><br />
+													<a id="gmpDefaultClastererIconBtn" href="#" class="button" style="width: 100%; margin-bottom: 5px;"><?php _e('Default Icon', GMP_LANG_CODE)?></a>
+													<div class="gmpClastererUplRes"></div>
+												</div>
+												<label for="map_opts_marker_clasterer_icon">
+													<?php _e('Claster Icon', GMP_LANG_CODE)?>
+												</label><br />
+												<img id="gmpMarkerClastererIconPrevImg" src="<?php echo $curClusterIcon?>" style="max-width: 53px; height: auto; margin: 5px 0;" />
+												<?php echo htmlGmp::hidden('map_opts[marker_clasterer_icon]', array('value' => $curClusterIcon, ))?>
+												<?php echo htmlGmp::hidden('map_opts[marker_clasterer_icon_width]', array('value' => $curClusterIconWidth, ))?>
+												<?php echo htmlGmp::hidden('map_opts[marker_clasterer_icon_height]', array('value' => $curClusterIconHeight, ))?>
+												<div style="clear: both;"></div>
 											</div>
-											<div style="margin-top: 10px;">
-												<?php // Prevent to use old default claster icon cdn icon because it is missing
-												$oldDefClasterIcon = 'https://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/images/m1.png';
-												$curClusterIcon = uriGmp::_(
-													$this->editMap
-													&& isset($this->map['params']['marker_clasterer_icon'])
-													&& $this->map['params']['marker_clasterer_icon']
-													&& $this->map['params']['marker_clasterer_icon'] != $oldDefClasterIcon
-														? $this->map['params']['marker_clasterer_icon']
-														: GMP_MODULES_PATH . '/gmap/img/m1.png');
-												$curClusterIconWidth =
-													$this->editMap
-													&& isset($this->map['params']['marker_clasterer_icon_width'])
-													&& $this->map['params']['marker_clasterer_icon_width']
-														? $this->map['params']['marker_clasterer_icon_width']
-														: 53;
-												$curClusterIconHeight =
-													$this->editMap
-													&& isset($this->map['params']['marker_clasterer_icon_width'])
-													&& $this->map['params']['marker_clasterer_icon_width']
-														? $this->map['params']['marker_clasterer_icon_width']
-														: 52;
-												?>
-												<?php echo htmlGmp::hidden('map_opts[marker_clasterer_icon]', array(
-													'value' => $curClusterIcon, ))?>
-												<?php echo htmlGmp::hidden('map_opts[marker_clasterer_icon_width]', array(
-													'value' => $curClusterIconWidth, ))?>
-												<?php echo htmlGmp::hidden('map_opts[marker_clasterer_icon_height]', array(
-													'value' => $curClusterIconHeight, ))?>
-												<img id="gmpMarkerClastererIconPrevImg" src="<?php echo $curClusterIcon?>" style="max-width: 53px; height: auto;" />
+											<div class="gmpClastererSubOpts">
+												<label for="map_opts_marker_clasterer_grid_size">
+													<?php _e('Claster Area Size', GMP_LANG_CODE)?>
+												</label>
+												<i class="fa fa-question supsystic-tooltip" title="<?php _e('Sets the grid size of cluster. The higher the size - the more area of capture the markers to the cluster.', GMP_LANG_CODE)?>"></i>
+												<br />
+												<div class="sup-col sup-w-75">
+													<?php echo htmlGmp::text('map_opts[marker_clasterer_grid_size]', array(
+														'value' => $this->editMap && isset($this->map['params']['marker_clasterer_grid_size']) ? $this->map['params']['marker_clasterer_grid_size'] : '60',
+														'attrs' => 'style="width: 100%;" id="gmpMarkerClastererGridSize" '))?>
+												</div>
+												<div class="sup-col" style="max-width: 50%; min-width: 20%; float: right; padding: 0; text-align: center;">
+													<a id="gmpDefaultClastererGridSizeBtn" href="#" class="button" style="width: 100%; margin-bottom: 5px;"><?php _e('Default', GMP_LANG_CODE)?></a>
+												</div>
 											</div>
-											<div style="clear: both;"></div>
 										</div>
 									</td>
 								</tr>
@@ -687,6 +710,72 @@
 												<div class="gmpCurUserPosFileUpRes"></div>
 											</div>
 											<div style="clear: both;"></div>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<th scope="row">
+										<label for="map_opts_frontend_add_markers">
+											<?php _e('Add markers on frontend', GMP_LANG_CODE)?>:
+										</label>
+										<i style="float: right;" class="fa fa-question supsystic-tooltip" title="<?php _e('You can add markers at the current map with the frontend using the form, which can be displayed using the shortcode (it placed below preview map). Additional options that affect the operation of the form:
+											<br /><br /><b>Logged In Users Only</b> - form will be displayed only for logged in users.
+											<br /><br /><b>Disable WP Editor</b> - disable / enable WP Editor for the Marker Description field of the form.
+											<br /><br /><b>Use limits for marker\'s adding</b> - allows you to limit the number of markers, which user can add from one IP address at the current map for a certain amount of time.
+											<br /><br /><b>Max marker\'s count</b> - the maximum number of markers, which can be added over certain amount of time.
+											<br /><br /><b>For allotted time (minutes)</b> - the number of minutes, during which you can add the maximum number of markers.
+											<br /><br />For example, during three minutes you can add only two markers at the map. If you try to add a third marker - the form will not be saved and you will see the notice with amount of time you must wait. After the right amount of time will pass - you can add next two markers, etc.
+											<br /><br />Important! If map and form for add markers at this map are placed on one page - this page will be overload after marker adding.', GMP_LANG_CODE)?>"></i>
+										<?php if(!$this->isPro) { ?>
+											<?php $proLink = frameGmp::_()->getModule('supsystic_promo')->generateMainLink('utm_source=plugin&utm_medium=frontend_add_markers&utm_campaign=googlemaps'); ?>
+											<br /><span class="gmpProOptMiniLabel"><a target="_blank" href="<?php echo $proLink?>"><?php _e('PRO option', GMP_LANG_CODE)?></a></span>
+										<?php }?>
+									</th>
+									<td>
+										<?php echo htmlGmp::checkboxHiddenVal('map_opts[frontend_add_markers]', array(
+											'value' => $this->editMap && isset($this->map['params']['frontend_add_markers']) ? $this->map['params']['frontend_add_markers'] : false,
+											'attrs' => 'class="gmpProOpt" id="map_opts_frontend_add_markers"'
+										))?>
+										<div id="gmpAddMarkersOnFrontendOptions" style="display: none;">
+											<div style="margin-top: 10px;">
+												<?php echo htmlGmp::checkboxHiddenVal('map_opts[frontend_add_markers_logged_in_only]', array(
+													'value' => $this->editMap && isset($this->map['params']['frontend_add_markers_logged_in_only']) ? $this->map['params']['frontend_add_markers_logged_in_only'] : false,
+													'attrs' => 'class="gmpProOpt" id="map_opts_frontend_add_markers_logged_in_only"'
+												))?>
+												<label for="map_opts_frontend_add_markers_logged_in_only"><?php _e('Logged In Users Only', GMP_LANG_CODE)?></label>
+											</div>
+											<div style="margin-top: 10px;">
+												<?php echo htmlGmp::checkboxHiddenVal('map_opts[frontend_add_markers_disable_wp_editor]', array(
+													'value' => $this->editMap && isset($this->map['params']['frontend_add_markers_disable_wp_editor']) ? $this->map['params']['frontend_add_markers_disable_wp_editor'] : false,
+													'attrs' => 'class="gmpProOpt" id="map_opts_frontend_add_markers_disable_wp_editor"'
+												))?>
+												<label for="map_opts_frontend_add_markers_disable_wp_editor"><?php _e('Disable WP Editor', GMP_LANG_CODE)?></label>
+											</div>
+											<div style="margin-top: 10px;">
+												<?php echo htmlGmp::checkboxHiddenVal('map_opts[frontend_add_markers_use_limits]', array(
+													'value' => $this->editMap && isset($this->map['params']['frontend_add_markers_use_limits']) ? $this->map['params']['frontend_add_markers_use_limits'] : false,
+													'attrs' => 'class="gmpProOpt" id="map_opts_frontend_add_markers_use_limits"'
+												))?>
+												<label for="map_opts_frontend_add_markers_use_limits"><?php _e('Use limits for marker\'s adding', GMP_LANG_CODE)?></label>
+											</div>
+											<div id="gmpUseLimitsForMarkerAddingOptions" style="display: none; margin-top: 10px;">
+												<div class="sup-col sup-w-50">
+													<label for="map_opts_frontend_add_markers_use_count_limits">
+														<?php _e('Max marker\'s count', GMP_LANG_CODE)?>
+													</label>
+													<?php echo htmlGmp::text('map_opts[frontend_add_markers_use_count_limits]', array(
+														'value' => $this->editMap && isset($this->map['params']['frontend_add_markers_use_count_limits']) ? $this->map['params']['frontend_add_markers_use_count_limits'] : '10',
+														'attrs' => 'style="width: 100%;" id="map_opts_frontend_add_markers_use_count_limits"'))?>
+												</div>
+												<div class="sup-col sup-w-50">
+													<label for="map_opts_frontend_add_markers_use_time_limits">
+														<?php _e('For allotted time (minutes)', GMP_LANG_CODE)?>
+													</label>
+													<?php echo htmlGmp::text('map_opts[frontend_add_markers_use_time_limits]', array(
+														'value' => $this->editMap && isset($this->map['params']['frontend_add_markers_use_time_limits']) ? $this->map['params']['frontend_add_markers_use_time_limits'] : '10',
+														'attrs' => 'style="width: 100%;" id="map_opts_frontend_add_markers_use_time_limits"'))?>
+												</div>
+											</div>
 										</div>
 									</td>
 								</tr>
@@ -1190,7 +1279,7 @@
 												'value' => ''))?>
 										</div>
 										<div style="clear: both;"></div>
-										<div class="gmpPolygonShapeParam">
+										<div class="gmpPolygonShapeParam gmpPolygonShapeDesc">
 											<div>
 												<label>
 													<?php _e('Fugure Description', GMP_LANG_CODE)?>:
@@ -1358,6 +1447,15 @@
 									'value' => '',	// Will be inserted from JS
 									'attrs' => 'class="gmpCopyTextCode gmpMapPhpShortCodeShell" style="float: right; text-align: center;"'));?>
 								<br style="clear: both;" />
+								<?php if($isPro) {?>
+									<span style="display: none; width: 100%;">
+										<strong style="margin-top: 7px; font-size: 1.2em; float: left;"><?php _e('Marker Form shortcode', GMP_LANG_CODE)?>:</strong>
+										<?php echo htmlGmp::text('gmpCopyTextCode', array(
+											'value' => '',	// Will be inserted from JS
+											'attrs' => 'class="gmpCopyTextCode gmpMapMarkerFormCodeShell" style="float: right; text-align: center;"'));?>
+										<br style="clear: both;" />
+									</span>
+								<?php }?>
 							</p>
 							<p id="shortcodeNotice" style="display: none;"><?php _e('Shortcode will appear after you save map.', GMP_LANG_CODE)?></p>
 						</div>

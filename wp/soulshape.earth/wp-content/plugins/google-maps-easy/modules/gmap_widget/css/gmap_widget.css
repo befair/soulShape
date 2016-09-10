@@ -1,12 +1,25 @@
-.widget-content .gmpWidgetRow:first-of-type, .widget-content .gmpWidgetSuboptions {
-	margin-top: 10px;
+.widget-content .gmpWidgetRow.gmpMapRow {
+	margin: 10px 0;
 }
-.widget-content .gmpWidgetRow, .widget-content .gmpWidgetSuboptions input[type="text"] {
+.widget-content .gmpWidgetRowCell {
+	float: left;
 	margin-bottom: 10px;
 }
-.widget-content .gmpWidgetSuboptions input[type="text"]:last-of-type {
-	margin-bottom: 0;
+.widget-content .gmpWidgetRowCell .gmpWidgetSuboptionsCell {
+	margin-top: 10px;
+}
+.widget-content .gmpWidgetRowCell.gmpFirstCell {
+	width: 40%;
+}
+.widget-content .gmpWidgetRowCell.gmpLastCell {
+	width: 60%;
+}
+.widget-content .gmpWidgetRow input[type="text"], .widget-content .gmpWidgetRow select {
+	width: 100%;
 }
 .widget-content .gmpWidgetRow input[type="checkbox"] {
 	vertical-align: bottom;
+}
+.widget-content .supsystic-info {
+	vertical-align: middle;
 }

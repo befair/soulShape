@@ -1,10 +1,11 @@
 // Maps
-function gmpGoogleMap(elementId, params) {
+function gmpGoogleMap(elementId, params, additionalData) {
 	if(typeof(google) === 'undefined') {
 		alert('Please check your Internet connection - we need it to load Google Maps Library from Google Server');
 		return false;
 	}
 	params = params ? params : {};
+	additionalData = additionalData ? additionalData : {};
 	var defaults = {
 		center: new google.maps.LatLng(40.69847032728747, -73.9514422416687)
 	,	zoom: 8
@@ -27,8 +28,10 @@ function gmpGoogleMap(elementId, params) {
 	this._heatmap = [];
 	this._clasterer = null;
 	this._clastererEnabled = false;
+	this._clastererMarkersGroupsStyles = [];
 	this._eventListeners = {};
 	this._layers = {};
+	this.mapMarkersGroups = additionalData.markerGroups ? additionalData.markerGroups : [];
 	this.init();
 }
 gmpGoogleMap.prototype.init = function() {
@@ -110,6 +113,7 @@ gmpGoogleMap.prototype._afterInit = function() {
 		this._setMaxZoomLevel();
 		this._fixZoomLevel();
 	}
+	this.resizeMapByHeight();
 	jQuery(document).trigger('gmapAfterMapInit', this);
 };
 gmpGoogleMap.prototype._setMinZoomLevel = function() {
@@ -145,48 +149,46 @@ gmpGoogleMap.prototype._fixZoomLevel = function() {
 	}
 };
 gmpGoogleMap.prototype.enableClasterization = function(clasterType, needTrigger) {
-	var needTrigger = needTrigger ? needTrigger : false;
+	needTrigger = needTrigger ? needTrigger : false;
 
 	switch(clasterType) {
 		case 'MarkerClusterer':	// Support only this one for now
 			var self = this;
 
+			self.setClastererMarkersGroupsStyles();
+
 			var eventHandle = google.maps.event.addListenerOnce(self.getRawMapInstance(), 'idle', function(a, b, c){
-				var clasterIcon = GMP_DATA.modPath + 'gmap/img/m1.png'
-				,	oldDefClasterIcon = 'https://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/images/m1.png'		// Prevent to use old default claster icon cdn icon because it is missing
-				,	iconWidth = 53
-				,	iconHeight = 52;
-
-				clasterIcon = self.getParam('marker_clasterer_icon') && self.getParam('marker_clasterer_icon') != oldDefClasterIcon
-						? self.getParam('marker_clasterer_icon')
-						: clasterIcon;
-				iconWidth = self.getParam('marker_clasterer_icon_width') ? self.getParam('marker_clasterer_icon_width') : iconWidth;
-				iconHeight = self.getParam('marker_clasterer_icon_height') ? self.getParam('marker_clasterer_icon_height') : iconHeight;
-
-				var clusterStyles = [ { url: clasterIcon, width: iconWidth, height: iconHeight } ];
+				var clasterGridSize = self.getParam('marker_clasterer_grid_size')
+				,	markerGroupsStyles = self.getClastererMarkersGroupsStyles();
 
 				// Enable clasterization
-				var mcOptions = {
-					styles: clusterStyles
-				};
 				var allMapMarkers = self.getAllRawMarkers()
-				,	allVisibleMapMarkers = [];
+				,	allVisibleMapMarkers = []
+				,	clasterer = self.getClasterer();
+
 				for(var marker in allMapMarkers) {
 					if(allMapMarkers[marker].getVisible()) {
 						allVisibleMapMarkers.push(allMapMarkers[marker]);
 					}
 				}
-				if(self._clasterer){
-					self._clasterer.clearMarkers();
-					self._clasterer.addMarkers( allVisibleMapMarkers );
-					var styles = self._clasterer.getStyles();
-					styles[0]['url'] = clusterStyles[0]['url'];
-					styles[0]['width'] = clusterStyles[0]['width'];
-					styles[0]['height'] = clusterStyles[0]['height'];
-					self._clasterer.resetViewport();
-					self._clasterer.redraw();
-				} else
-					self._clasterer = new MarkerClusterer(self.getRawMapInstance(), allVisibleMapMarkers, mcOptions);
+				if(clasterer){
+					clasterer.clearMarkers();
+					clasterer.addMarkers( allVisibleMapMarkers );
+					clasterer.setStyles( markerGroupsStyles );
+					
+					self.setClastererGridSize(clasterGridSize);
+
+					clasterer.resetViewport();
+					clasterer.redraw();
+				} else {
+					clasterer = new MarkerClusterer(self.getRawMapInstance(), allVisibleMapMarkers, { styles: markerGroupsStyles });
+
+					clasterer.setCalculator(self.customClastererCalculatorFunction( markerGroupsStyles ));
+					self.setClasterer(clasterer);
+					self.setClastererGridSize(clasterGridSize);
+
+					clasterer = self.getClasterer();
+				}
 			});
 			this._addEventListenerHandle('idle', 'enableClasterization', eventHandle);
 			if(GMP_DATA.isAdmin || needTrigger) {
@@ -199,8 +201,9 @@ gmpGoogleMap.prototype.enableClasterization = function(clasterType, needTrigger)
 gmpGoogleMap.prototype.disableClasterization = function() {
 	var eventHandle = this._getEventListenerHandle('idle', 'enableClasterization');
 	if(eventHandle) {
-		if(this._clasterer) {
-			this._clasterer.clearMarkers();
+		var clasterer = this.getClasterer();
+		if(clasterer) {
+			clasterer.clearMarkers();
 			var markers = this.getAllRawMarkers();
 			for(var i = 0; i < markers.length; i++) {
 				markers[i].setMap( this.getRawMapInstance() );
@@ -211,13 +214,124 @@ gmpGoogleMap.prototype.disableClasterization = function() {
 		this._clastererEnabled = false;
 	}
 };
+gmpGoogleMap.prototype.customClastererCalculatorFunction = function(markerGroupsStyles) {
+	return function(markers, numStyles) {
+		var styleIndex = 1, markersGroupsStyles = markerGroupsStyles, markersGroupsIds = {}, maxCount = 0, groupId = 0, curStyle = [];
+
+		for (var i = 0; i < markers.length; i++) {
+			if (markers[i].marker_group_id) {
+				if (typeof(markersGroupsIds[markers[i].marker_group_id]) == 'undefined') {
+					markersGroupsIds[markers[i].marker_group_id] = 1;
+				} else {
+					markersGroupsIds[markers[i].marker_group_id]++;
+				}
+			}
+		}
+		for (var currGroupId in markersGroupsIds) {
+			if (markersGroupsIds[currGroupId] > maxCount) {
+				maxCount = markersGroupsIds[currGroupId];
+				groupId = currGroupId;
+			}
+		}
+		curStyle = jQuery.grep(markersGroupsStyles, function (e, i) {
+			if (e.marker_group_id == groupId) {
+				return e;
+			}
+		});
+
+		if (curStyle && curStyle[0])
+			styleIndex = markersGroupsStyles.indexOf(curStyle[0]) + 1;
+
+		return {
+			text: markers.length,
+			index: styleIndex
+		};
+	}
+};
+gmpGoogleMap.prototype.getClasterer = function() {
+	if(this._clasterer) {
+		return this._clasterer;
+	}
+	return false;
+};
+gmpGoogleMap.prototype.setClasterer = function(clasterer) {
+	this._clasterer = clasterer;
+};
+gmpGoogleMap.prototype.setMapMarkersGroups = function(groups) {
+	this.mapMarkersGroups = groups;
+};
+gmpGoogleMap.prototype.getMapMarkersGroups = function() {
+	return this.mapMarkersGroups;
+};
+gmpGoogleMap.prototype.setClastererMarkersGroupsStyles = function() {
+	var mapMarkersGroups = this.getMapMarkersGroups()
+	,	markersGroupsStyles = this.getClastererMarkersGroupsStyles()
+	,	defClasterIcon = GMP_DATA.modPath + 'gmap/img/m1.png'
+	,	oldDefClasterIcon = 'https://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/images/m1.png'		// Prevent to use old default claster icon cdn icon because it is missing
+	,	clasterIcon = this.getParam('marker_clasterer_icon')
+	,	iconWidth = this.getParam('marker_clasterer_icon_width')
+	,	iconHeight = this.getParam('marker_clasterer_icon_height');
+
+	// Set claster base icon
+	clasterIcon = clasterIcon && clasterIcon != oldDefClasterIcon ? clasterIcon : defClasterIcon;
+	iconWidth = iconWidth ? iconWidth : 53;
+	iconHeight = iconHeight ? iconHeight : 52;
+
+	markersGroupsStyles.push({
+		marker_group_id: 0
+	,	url: clasterIcon
+	,	width: iconWidth
+	,	height: iconHeight
+	});
+
+	if(mapMarkersGroups) {
+		for(var i in mapMarkersGroups) {
+			var markerGroupId = mapMarkersGroups[i].id
+			,	markerGroupClasterIcon = mapMarkersGroups[i].params.claster_icon
+			,	markerGroupClasterIconWidth = mapMarkersGroups[i].params.claster_icon_width
+			,	markerGroupClasterIconHeight = mapMarkersGroups[i].params.claster_icon_height;
+
+			if(markerGroupClasterIcon && markerGroupClasterIcon != clasterIcon) {
+				markersGroupsStyles.push({
+					marker_group_id: markerGroupId
+				,	url: markerGroupClasterIcon ? markerGroupClasterIcon : defClasterIcon
+				,	width: markerGroupClasterIconWidth ? markerGroupClasterIconWidth : 53
+				,	height: markerGroupClasterIconHeight ? markerGroupClasterIconHeight : 52
+				});
+			}
+		}
+	}
+};
+gmpGoogleMap.prototype.getClastererMarkersGroupsStyles = function() {
+	return this._clastererMarkersGroupsStyles;
+};
+gmpGoogleMap.prototype.setClastererGridSize = function(size) {
+	var clasterer = this.getClasterer();
+
+	size = size && parseInt(size) ? parseInt(size) : null;
+
+	if(clasterer && size) {
+		clasterer.setGridSize(size);
+	}
+};
+gmpGoogleMap.prototype.getClastererGridSize = function() {
+	var clasterer = this.getClasterer()
+		,	clusterGridSize = null;
+
+	if(clasterer) {
+		clusterGridSize =  clasterer.getGridSize();
+	}
+	return clusterGridSize;
+};
 /**
  * Should trigger after added or modified markers
  */
 gmpGoogleMap.prototype.markersRefresh = function() {
-	if(this._clastererEnabled && this._clasterer) {
-		this._clasterer.clearMarkers();
-		this._clasterer.addMarkers( this.getAllRawMarkers() );
+	var clasterer = this.getClasterer();
+
+	if(this._clastererEnabled && clasterer) {
+		clasterer.clearMarkers();
+		clasterer.addMarkers( this.getAllRawMarkers() );
 	}
 	jQuery(document).trigger('gmapAfterMarkersRefresh', this);
 };
@@ -386,6 +500,27 @@ gmpGoogleMap.prototype.checkMarkersParams = function(markers, needToShow) {
 		}
 	}
 };
+gmpGoogleMap.prototype.resizeMapByHeight = function() {
+	if(!GMP_DATA.isAdmin && parseInt(this.getParam('adapt_map_to_screen_height')) && this.getRawMapInstance().map_display_mode != 'popup') {
+		var self = this;
+
+		function resizeHeight() {
+			var viewId = self.getParam('view_id')
+			,	mapContainer = jQuery('#gmpMapDetailsContainer_' + viewId)
+			,	mapContainerOffset = mapContainer.length ? mapContainer.offset() : false;
+
+			if(mapContainerOffset) {
+				jQuery('#gmpMapDetailsContainer_' + viewId + ', #' + self.getParam('view_html_id')).each(function () {
+					jQuery(this).height(jQuery(window).height() - mapContainerOffset.top);
+				});
+				self.refresh();
+			}
+		}
+		resizeHeight();
+		jQuery(window).bind('resize', resizeHeight);
+		jQuery(window).bind('orientationchange', resizeHeight);
+	}
+};
 // Common functions
 var g_gmpGeocoder = null;
 jQuery.fn.mapSearchAutocompleateGmp = function(params) {
@@ -393,33 +528,51 @@ jQuery.fn.mapSearchAutocompleateGmp = function(params) {
     jQuery(this).keyup(function(event){
 		// Ignore tab, enter, caps, end, home, arrows
 		if(toeInArrayGmp(event.keyCode, [9, 13, 20, 35, 36, 37, 38, 39, 40])) return;
-		var address = jQuery.trim(jQuery(this).val());
-		if(address && address != '') {
-			if(typeof(params.msgEl) === 'string')
+
+		var searchData = jQuery.trim(jQuery(this).val());
+
+		if(searchData && searchData != '') {
+			if(typeof(params.msgEl) === 'string') {
 				params.msgEl = jQuery(params.msgEl);
+			}
 			params.msgEl.showLoaderGmp();
 			var self = this;
+
 			jQuery(this).autocomplete({
 				source: function(request, response) {
-					var geocoder = gmpGetGeocoder();
-					geocoder.geocode( { 'address': address}, function(results, status) {
+					var autocomleateData = []
+					,	additionalData = typeof(params.additionalData) != 'undefined' ? params.additionalData : ''
+					,	geocoder = gmpGetGeocoder()	;
+
+					if(additionalData) {
+						autocomleateData = gmpAutocomleateData(additionalData, request.term)
+					}
+
+					geocoder.geocode({ 'address': searchData }, function(results, status) {
 						params.msgEl.html('');
-						if (status == google.maps.GeocoderStatus.OK && results.length) {
-							var autocomleateData = [];
+
+						if(status == google.maps.GeocoderStatus.OK && results.length) {
 							for(var i in results) {
 								autocomleateData.push({
-									lat: results[i].geometry.location.lat()
+									label: results[i].formatted_address
+								,	lat: results[i].geometry.location.lat()
 								,	lng: results[i].geometry.location.lng()
-								,	label: results[i].formatted_address
+								,	category: toeLangGmp('Plases')
 								});
 							}
 							response(autocomleateData);
 						} else {
-							var notFoundMsg = toeLangGmp('Google can\'t find requested address coordinates, please try to modify search criterias.');
-							if(jQuery(self).parent().find('.ui-helper-hidden-accessible').size()) {
-								jQuery(self).parent().find('.ui-helper-hidden-accessible').html( notFoundMsg );
+							if(autocomleateData) {
+								response(autocomleateData);
 							} else {
-								params.msgEl.html( notFoundMsg );
+								//var notFoundMsg = toeLangGmp('Google can\'t find requested address coordinates, please try to modify search criterias.');
+								var notFoundMsg = toeLangGmp('Nothing was found');
+
+								if(jQuery(self).parent().find('.ui-helper-hidden-accessible').size()) {
+									jQuery(self).parent().find('.ui-helper-hidden-accessible').html( notFoundMsg );
+								} else {
+									params.msgEl.html( notFoundMsg );
+								}
 							}
 						}
 					});
@@ -430,11 +583,28 @@ jQuery.fn.mapSearchAutocompleateGmp = function(params) {
 					}
 				}
 			});
+
 			// Force imidiate search right after creation
 			jQuery(this).autocomplete('search');
 		}
 	});
 };
+function gmpAutocomleateData(data, needle) {
+	var autocomleateData = [];
+
+	for(var i in data) {
+		for(var j in data[i]) {
+			var label = data[i][j].label.toLowerCase()
+			,	desc = data[i][j].marker_desc != 'undefined' ? data[i][j].marker_desc : ''
+			,	term = needle.toLowerCase();
+
+			if(label.indexOf(term) !== -1 || (desc && desc.indexOf(term) !== -1)) {
+				autocomleateData.push(data[i][j]);
+			}
+		}
+	}
+	return autocomleateData;
+}
 function gmpGetGeocoder() {
 	if(!g_gmpGeocoder) {
 		g_gmpGeocoder = new google.maps.Geocoder();

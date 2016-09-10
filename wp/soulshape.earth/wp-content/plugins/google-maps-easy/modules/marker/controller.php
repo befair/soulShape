@@ -169,10 +169,13 @@ class markerControllerGmp extends controllerGmp {
 
 				// Marker Coordinates
 				$coords = '<div class="egm-marker-latlng">'
-					. round($data[$i]['coord_x'], 2)
-					. '"N ' . round($data[$i]['coord_y'], 2)
-					. '"E</div>';
+					. round($data[$i]['coord_x'], 2) . '"N '
+					. round($data[$i]['coord_y'], 2) . '"E
+					</div>';
 				$data[$i]['coords'] = preg_replace('/\s\s+/', ' ', trim($coords));
+
+				// Marker Action Buttons
+				$data[$i]['actions'] = frameGmp::_()->getModule('marker')->getView()->getListOperations($data[$i]['id']);
 			}
 			frameGmp::_()->getModule('gmap')->getModel()->resortMarkers($markersIds);
 		}
