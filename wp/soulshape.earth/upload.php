@@ -38,7 +38,7 @@ if ($uploadOk != 0)
         'name' => $_POST['name'],
         'description' => $_POST['description'],
         'modelFile' => new CurlFile($_FILES['fileToUpload']['tmp_name'].'.'.$fileType),
-        'token' => 'a53b6b9ddbf84735ab2e6475a7befc81',
+        'token' => 'f0e7f420491b43d59d8799ae555838ff',
         'private' => 0,
     );
 
@@ -69,6 +69,8 @@ $length = $_POST['length'];
 $width = $_POST['width'];
 $height = $_POST['height'];
 $age = $_POST['age'];
+$country = $_POST['country'];
+$material = $_POST['material'];
 $price = 5;
 
 $post = array(
@@ -97,7 +99,6 @@ if($post_id) {
     update_post_meta($post_id, '_downloadable', 'yes');
     update_post_meta($post_id, '_virtual', 'yes');
     update_post_meta($post_id, '_regular_price', $price);
-    //update_post_meta($post_id, '_sale_price', $price);
     update_post_meta($post_id, '_purchase_note', "");
     update_post_meta($post_id, '_featured', "no");
     update_post_meta($post_id, '_length', $length);
@@ -117,10 +118,25 @@ if($post_id) {
         'is_visible'=>'1',
         'is_variation'=>'1',
         'is_taxonomy'=>'1'
+    ), 'pa_country'=>Array(
+        'name'=>'pa_country',
+        'value'=>'',
+        'is_visible'=>'1',
+        'is_variation'=>'1',
+        'is_taxonomy'=>'1'
+    ), 'pa_material'=>Array(
+        'name'=>'pa_material',
+        'value'=>'',
+        'is_visible'=>'1',
+        'is_variation'=>'1',
+        'is_taxonomy'=>'1'
     ));
+
     update_post_meta($post_id, '_product_attributes', $data);
     wp_set_object_terms($post_id, $population, "pa_population", $true);
     wp_set_object_terms($post_id, $age, "pa_age", $true);
+    wp_set_object_terms($post_id, $country, "pa_country", $true);
+    wp_set_object_terms($post_id, $material, "pa_material", $true);
 
     update_post_meta($post_id, '_sale_price_dates_from', "");
     update_post_meta($post_id, '_sale_price_dates_to', "");
@@ -130,17 +146,6 @@ if($post_id) {
     update_post_meta($post_id, '_backorders', "no");
     update_post_meta($post_id, '_stock', "");
     update_post_meta($post_id, 'post_iframe', '<iframe width="640" height="480" src="https://sketchfab.com/models/'.$uid.'/embed" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" onmousewheel=""></iframe>');
-
-
-    // file paths will be stored in an array keyed off md5(file path)
-    // $downdloadArray = array('name'=>"Test", 'file'=>$uploadDIR['baseurl']."/video/".$video);
-
-    // $file_path = md5($uploadDIR['baseurl']."/video/".$video);
-
-    // $_file_paths[$file_path] = $downdloadArray;
-    // grant permission to any newly added files on any existing orders for this product
-    // do_action( 'woocommerce_process_product_file_download_paths', $post_id, 0, $downdloadArray );
-    // update_post_meta( $post_id, '_downloadable_files', $_file_paths);
     update_post_meta( $post_id, '_download_limit', '');
     update_post_meta( $post_id, '_download_expiry', '');
     update_post_meta( $post_id, '_download_type', '');

@@ -22,10 +22,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 global $post, $product;
 $population = $product->get_attribute('population');
+$country = $product->get_attribute('country');
+
 //Product caption
 echo "<div class='product-caption'>";
 echo "<h2>$post->post_title</h2>";
-echo $population;
+echo $population." - ".$country;
 echo "</div>";
 
 if ($post->post_author == '1') 
